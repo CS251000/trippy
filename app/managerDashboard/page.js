@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function ManagerDashboard() {
-  return (
-    <div>
-      Manager dashboard by me
-    </div>
-  )
+  return <div>Manager dashboard by Tanay</div>;
 }
