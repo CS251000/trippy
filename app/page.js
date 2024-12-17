@@ -10,6 +10,7 @@ export default function Home() {
     <Link href={'/participantDashboard'}>
     <button className="bg-white text-black block">Participant Dashboard</button>
     </Link>
+    login
     </>
 
   );
