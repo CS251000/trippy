@@ -1,5 +1,6 @@
 // components/HeroCarousel.js
 import Image from "next/image";
+import Link from "next/link";
 
 const HeroCarousel = () => {
   return (
@@ -20,12 +21,16 @@ const HeroCarousel = () => {
             built-in community.
           </p>
           <div className="flex gap-4">
+            <Link href={'/host'}>
             <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
               Host a Trip
             </button>
+            </Link>
+            <Link href={'/traveller'}>
             <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
               Find a Trip
             </button>
+            </Link>
           </div>
         </div>
       </div>
