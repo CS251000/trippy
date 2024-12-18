@@ -1,5 +1,6 @@
 "use client";
 
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -33,6 +34,9 @@ export default function TripsPage() {
 
   return (
     <div className="p-4">
+        
+            <UserButton/>
+        
       <Link href={"/"}>Home</Link>
       <h1 className="text-2xl font-bold mb-4">Trips</h1>
       {trips.length === 0 ? (

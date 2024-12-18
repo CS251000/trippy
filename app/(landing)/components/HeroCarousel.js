@@ -1,8 +1,12 @@
-// components/HeroCarousel.js
+"use client";
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import { SignInButton } from "@clerk/nextjs";
 
 const HeroCarousel = () => {
+  const { isSignedIn } = useUser(); // Get user sign-in status from Clerk
+
   return (
     <div className="relative w-full">
       <div className="relative w-full h-[500px]">
@@ -21,16 +25,27 @@ const HeroCarousel = () => {
             built-in community.
           </p>
           <div className="flex gap-4">
-            <Link href={'/host'}>
-            <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
-              Host a Trip
-            </button>
-            </Link>
-            <Link href={'/traveller'}>
-            <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
-              Find a Trip
-            </button>
-            </Link>
+            {/* Show Clerk SignInButton if not signed in */}
+            {!isSignedIn ? (
+              <SignInButton>
+                <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+                  Sign In
+                </button>
+              </SignInButton>
+            ) : (
+              <>
+                <Link href="/host">
+                  <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+                    Host a Trip
+                  </button>
+                </Link>
+                <Link href="/traveller">
+                  <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
+                    Find a Trip
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
