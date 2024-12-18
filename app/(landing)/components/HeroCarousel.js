@@ -29,9 +29,6 @@ const HeroCarousel = () => {
           </div>
         </div>
       </div>
-      <div className="text-center mt-4">
-        <p className="text-gray-700">Excellent ⭐⭐⭐⭐⭐ Trustpilot</p>
-      </div>
     </div>
   );
 };
