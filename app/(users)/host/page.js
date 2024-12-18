@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function TripDetailsForm() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export default function TripDetailsForm() {
   });
 
   const [status, setStatus] = useState("");
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +34,10 @@ export default function TripDetailsForm() {
       });
 
       if (response.ok) {
+        const data = await response.json();
         setStatus("Trip details successfully saved!");
+
+        // Clear form data
         setFormData({
           destination: "",
           start_date: "",
@@ -40,6 +45,9 @@ export default function TripDetailsForm() {
           description: "",
           user_id: "",
         });
+
+        // Redirect to the trip dashboard
+        router.push(`/host/${data.id}`);
       } else {
         const error = await response.json();
         setStatus(`Error: ${error.message}`);
@@ -51,7 +59,7 @@ export default function TripDetailsForm() {
 
   return (
     <div className="max-w-md mx-auto my-10 p-5 border border-gray-300 rounded-lg shadow-md">
-      <Link href={'/'}>HOME</Link>
+      <Link href="/">HOME</Link>
       <h1 className="text-xl font-bold mb-4">Add Trip Details</h1>
       {status && <p className="mb-4 text-center">{status}</p>}
       <form onSubmit={handleSubmit}>

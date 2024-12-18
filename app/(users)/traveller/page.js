@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 
 export default function TripsPage() {
   const [trips, setTrips] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -18,25 +17,21 @@ export default function TripsPage() {
         }
         const data = await res.json();
         setTrips(data.trips);
-        setLoading(false);
       } catch (err) {
         console.error(err);
         setError(err.message);
-        setLoading(false);
       }
     }
 
     fetchTrips();
   }, []);
 
-  if (loading) return <div>Loading trips...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="p-4">
-        
-            <UserButton/>
-        
+      <UserButton />
+
       <Link href={"/"}>Home</Link>
       <h1 className="text-2xl font-bold mb-4">Trips</h1>
       {trips.length === 0 ? (
@@ -62,6 +57,12 @@ export default function TripsPage() {
                   <strong>Description:</strong> {trip.description}
                 </p>
               )}
+              {/* Correct dynamic route handling */}
+              <Link href={`/traveller/${trip.id}`}>
+                <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                  Info
+                </button>
+              </Link>
             </div>
           ))}
         </div>
