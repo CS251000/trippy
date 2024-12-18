@@ -1,4 +1,4 @@
-import Home from '@/app/page'
+
 import { SignUp } from '@clerk/nextjs'
 import Link from 'next/link'
 
