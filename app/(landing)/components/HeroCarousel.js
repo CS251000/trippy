@@ -5,12 +5,12 @@ const HeroCarousel = () => {
   return (
     <div className="relative w-full">
       <div className="relative w-full h-[500px]">
-        <Image
+        {/* <Image
           //   src="/group-travel.jpg" // Add your image path here
           alt="Group travel"
           layout="fill"
           objectFit="cover"
-        />
+        /> */}
         <div className="absolute inset-0 flex flex-col items-start justify-center px-8 bg-black bg-opacity-40">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Group travel for communities
