@@ -1,24 +1,42 @@
 {
-  "id": "78a38507-07d3-4803-bef3-b09fd6d199de",
+  "id": "ef9427ad-7c94-47d9-81d8-a044e15c8dea",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.trip_details": {
-      "name": "trip_details",
+    "public.trips": {
+      "name": "trips",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
+        "trip_id": {
+          "name": "trip_id",
+          "type": "integer",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "trips_trip_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "100",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
         },
         "destination": {
           "name": "destination",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "subDestinations": {
+          "name": "subDestinations",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{}'::text[]"
         },
         "start_date": {
           "name": "start_date",
@@ -32,15 +50,101 @@
           "primaryKey": false,
           "notNull": true
         },
-        "description": {
-          "name": "description",
-          "type": "varchar(500)",
+        "budget": {
+          "name": "budget",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tripType": {
+          "name": "tripType",
+          "type": "tripType",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
-        },
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
         "user_id": {
           "name": "user_id",
           "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "users_user_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "second_name": {
+          "name": "second_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "emergencyPhoneNumber": {
+          "name": "emergencyPhoneNumber",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profileImage": {
+          "name": "profileImage",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "age": {
+          "name": "age",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "host_organization": {
+          "name": "host_organization",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         }
@@ -54,7 +158,34 @@
       "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.tripType": {
+      "name": "tripType",
+      "schema": "public",
+      "values": [
+        "Relaxing",
+        "Adventurous",
+        "Sightseeing",
+        "Cultural",
+        "Wildlife",
+        "Beach",
+        "Hiking",
+        "Drizzle",
+        "Snowy",
+        "Romantic",
+        "FamilyFriendly",
+        "Historical",
+        "RoadTrip",
+        "Luxury",
+        "EcoFriendly",
+        "Festival",
+        "Wellness",
+        "AdventureSports",
+        "Cruise",
+        "Camping"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},
