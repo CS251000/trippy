@@ -1,0 +1,1 @@
+ALTER TYPE "public"."tripType" RENAME TO "type";

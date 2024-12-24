@@ -1,38 +1,52 @@
-import { tripDetailsTable } from "@/db/schema"; // Adjust this path as needed
+import { trips } from "@/db/schema"; 
 import { db } from "@/db";
 
 export async function POST(req) {
   try {
-    const { destination, start_date, end_date, description, user_id } = await req.json();
+    const formData = await req.formData(); 
+    console.log(formData);
+    const destination = formData.get("destination");
+    const start_date = formData.get("start_date");
+    const end_date = formData.get("end_date");
+    const description = formData.get("description");
+    const maxParticipants = formData.get("maxParticipants");
+    const budget = formData.get("budget");
+    const tripType = formData.get("trip_type");
+    const tripImage = formData.get("trip_image");
+
+
 
     // Validate required fields
-    if (!destination || !start_date || !end_date || !user_id) {
+    if (!destination || !start_date || !end_date) {
       return new Response(
         JSON.stringify({ message: "Missing required fields." }),
         { status: 400 }
       );
     }
 
-
-
-    // Insert the trip details into the database
+    const startDateParsed = new Date(start_date);
+    const endDateParsed = new Date(end_date);
+    
     const result = await db
-      .insert(tripDetailsTable)
+      .insert(trips)
       .values({
-        destination,
-        start_date: new Date(start_date),
-        end_date: new Date(end_date),
-        description,
-        user_id,
+        title:"TITLE",
+        destination:destination,
+        startDate:startDateParsed,
+        endDate:endDateParsed,
+        description:description,
+        participantsUpperLimit: maxParticipants,
+        budget:budget,
+        type:tripType,
+        status:"Scheduled",
+
       })
-      .returning({ id: tripDetailsTable.id }); // Ensure it returns the `id`
-
-
-    // Return the inserted ID and a success message
+      .returning({ id: trips.id }); 
+      
     return new Response(
       JSON.stringify({
         message: "Trip details saved successfully!",
-        id: result[0]?.id, // Safely extract the `id` from the array
+        id: result[0]?.id, 
       }),
       { status: 200 }
     );

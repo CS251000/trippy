@@ -10,6 +10,7 @@ import {
     primaryKey,
     numeric,
     boolean,
+    date,
 } from "drizzle-orm/pg-core";
 
 export const MAX_USERNAME_LENGTH = 64;
@@ -17,7 +18,7 @@ export const MAX_EMAIL_LENGTH = 320;
 export const MAX_DESTINATION_NAME_LENGTH = 100;
 export const MAX_TRIP_TITLE_LENGTH = 100;
 
-export const tripTypeEnum = pgEnum('tripType', [
+export const tripTypeEnum = pgEnum('trip_type', [
   'Relaxing',        // A calm and peaceful trip
   'Adventurous',     // For thrill-seekers
   'Sightseeing',     // Exploring famous landmarks and attractions
@@ -38,6 +39,12 @@ export const tripTypeEnum = pgEnum('tripType', [
   'AdventureSports', // Includes bungee jumping, rafting, etc.
   'Cruise',          // Trips on cruise ships
   'Camping',         // Outdoor camping experiences
+]);
+
+export const tripStatusEnum= pgEnum('trip_status',[
+    'Scheduled',
+    'Ongoing',
+    'Completed'
 ]);
 
 // Users
@@ -66,11 +73,12 @@ export const trips = pgTable("trips", {
     destination: varchar("destination", {
         length: MAX_DESTINATION_NAME_LENGTH,
     }).notNull(),
-    startDate: timestamp("start_date").notNull(),
-    endDate: timestamp("end_date").notNull(),
+    startDate: date("start_date").notNull(),
+    endDate: date("end_date").notNull(),
+    participantsUpperLimit:integer('participants_upper_limit'),
     budget: numeric("budget", { precision: 10, scale: 2 }).notNull(),
-    type: tripTypeEnum(),
-    status: varchar("status", { length: 50 }).notNull(),
+    type: tripTypeEnum().notNull(),
+    status:tripStatusEnum().notNull()
 });
 
 export const tripsRelations = relations(trips, ({ many }) => ({

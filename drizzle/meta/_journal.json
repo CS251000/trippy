@@ -15,6 +15,55 @@
       "when": 1734812752324,
       "tag": "0001_free_bill_hollister",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735034087753,
+      "tag": "0002_reflective_falcon",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1735034183399,
+      "tag": "0003_elite_speedball",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1735034417532,
+      "tag": "0004_talented_shotgun",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1735035035166,
+      "tag": "0005_amused_betty_brant",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1735036549758,
+      "tag": "0006_early_baron_zemo",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1735037309448,
+      "tag": "0007_messy_tarantula",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1735038065665,
+      "tag": "0008_exotic_nebula",
+      "breakpoints": true
     }
   ]
 }

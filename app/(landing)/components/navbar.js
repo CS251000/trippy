@@ -11,7 +11,7 @@ export const NavbarPage = () => {
     return (
         <div className="sticky top-0 z-50 flex justify-between items-center px-8 py-4 bg-black text-white font-mono shadow-lg">
             <div className="flex items-center space-x-2">
-                <Image src="/logo.png" width={40} height={30} alt="logo" />
+                <Image src="/images/logo.png" width={40} height={30} alt="logo" />
                 <Link href="/" scroll={true}>
                     <div className="text-xl font-bold cursor-pointer">Trippy</div>
                 </Link>

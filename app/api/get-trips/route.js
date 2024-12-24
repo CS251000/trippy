@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { tripDetailsTable } from "@/db/schema";
+import { trips } from "@/db/schema";
 
 export async function GET() {
     try {
-        const trips = await db.select().from(tripDetailsTable);
-        return NextResponse.json({ success: true, trips });
+        const tripsres = await db.select().from(trips);
+        return NextResponse.json({ success: true, tripsres });
     } catch (error) {
         console.error("Error fetching trips:", error);
         return NextResponse.json(

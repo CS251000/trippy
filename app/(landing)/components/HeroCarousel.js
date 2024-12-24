@@ -25,14 +25,7 @@ const HeroCarousel = () => {
             built-in community.
           </p>
           <div className="flex gap-4">
-            {/* Show Clerk SignInButton if not signed in */}
-            {!isSignedIn ? (
-              <SignInButton>
-                <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
-                  Sign In
-                </button>
-              </SignInButton>
-            ) : (
+            
               <>
                 <Link href="/host">
                   <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
@@ -45,7 +38,7 @@ const HeroCarousel = () => {
                   </button>
                 </Link>
               </>
-            )}
+            
           </div>
         </div>
       </div>

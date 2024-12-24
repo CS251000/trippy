@@ -16,7 +16,7 @@ export default function TripsPage() {
           throw new Error("Failed to fetch trips");
         }
         const data = await res.json();
-        setTrips(data.trips);
+        setTrips(data.tripsres);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -46,11 +46,11 @@ export default function TripsPage() {
               <h2 className="text-lg font-semibold">{trip.destination}</h2>
               <p className="text-sm">
                 <strong>Start Date:</strong>{" "}
-                {new Date(trip.start_date).toLocaleDateString()}
+                {new Date(trip.startDate).toLocaleDateString()}
               </p>
               <p className="text-sm">
                 <strong>End Date:</strong>{" "}
-                {new Date(trip.end_date).toLocaleDateString()}
+                {new Date(trip.endDate).toLocaleDateString()}
               </p>
               {trip.description && (
                 <p className="text-sm mt-2">
