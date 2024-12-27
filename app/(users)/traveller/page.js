@@ -3,15 +3,22 @@
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Loading from "@/app/loading";
+
+
+
 
 export default function TripsPage() {
+
+ 
   const [trips, setTrips] = useState([]);
   const [error, setError] = useState(null);
+  const [loading,setLoading]= useState(true);
 
   useEffect(() => {
     async function fetchTrips() {
       try {
-        const res = await fetch("/api/get-trips");
+        const res = await fetch("/api/get-trips",{cache:'force-cache'});
         if (!res.ok) {
           throw new Error("Failed to fetch trips");
         }
@@ -20,12 +27,15 @@ export default function TripsPage() {
       } catch (err) {
         console.error(err);
         setError(err.message);
+      }finally{
+        setLoading(false);
       }
     }
 
     fetchTrips();
   }, []);
 
+  if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -34,9 +44,7 @@ export default function TripsPage() {
 
       <Link href={"/"}>Home</Link>
       <h1 className="text-2xl font-bold mb-4">Trips</h1>
-      {trips.length === 0 ? (
-        <p>No trips found.</p>
-      ) : (
+      
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {trips.map((trip) => (
             <div
@@ -66,7 +74,7 @@ export default function TripsPage() {
             </div>
           ))}
         </div>
-      )}
+      
     </div>
   );
 }

@@ -24,15 +24,15 @@ const HeroCarousel = () => {
             Host a group trip of your own, or book a spot to travel with a
             built-in community.
           </p>
-          <div className="flex gap-4">
+          <div className="flex gap-4 lg:hidden">
             
               <>
-                <Link href="/host">
+                <Link href="/host" prefetch={true}>
                   <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
                     Host a Trip
                   </button>
                 </Link>
-                <Link href="/traveller">
+                <Link href="/traveller" prefetch={true}>
                   <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
                     Find a Trip
                   </button>

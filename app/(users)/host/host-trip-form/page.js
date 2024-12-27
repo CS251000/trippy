@@ -9,12 +9,13 @@ import { tripTypes } from "@/lib/constants";
 
 export default function HostTripForm() {
   const [formData, setFormData] = useState({
+    title:"",
     destination: "",
     start_date: "",
     end_date: "",
     description: "",
-    maxParticipants:0,
-    budget: 0,
+    maxParticipants:"",
+    budget: "",
     trip_type: "",
     trip_image: null,
     
@@ -83,6 +84,20 @@ export default function HostTripForm() {
       <h1 className="text-2xl font-bold mb-4">Host a Trip</h1>
       {status && <p className="mb-4 text-center text-red-500">{status}</p>}
       <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2" htmlFor="title">
+            Title
+          </label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            className={`w-full border p-2 rounded `}
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+          </div>
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="destination">
             Destination

@@ -4,7 +4,8 @@ import { db } from "@/db";
 export async function POST(req) {
   try {
     const formData = await req.formData(); 
-    console.log(formData);
+    // console.log(formData);
+    const title= formData.get("title")
     const destination = formData.get("destination");
     const start_date = formData.get("start_date");
     const end_date = formData.get("end_date");
@@ -30,7 +31,7 @@ export async function POST(req) {
     const result = await db
       .insert(trips)
       .values({
-        title:"TITLE",
+        title:title,
         destination:destination,
         startDate:startDateParsed,
         endDate:endDateParsed,
