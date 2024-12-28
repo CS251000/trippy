@@ -27,6 +27,11 @@ export default function RootLayout({ children }) {
     
     <html lang="en">
     <Suspense fallback={<Loading/>}>
+    <script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          async
+          defer
+        ></script>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >

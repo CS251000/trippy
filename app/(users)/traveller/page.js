@@ -18,11 +18,12 @@ export default function TripsPage() {
   useEffect(() => {
     async function fetchTrips() {
       try {
-        const res = await fetch("/api/get-trips",{cache:'force-cache'});
+        const res = await fetch("/api/get-trips");
         if (!res.ok) {
           throw new Error("Failed to fetch trips");
         }
         const data = await res.json();
+        console.log(data);
         setTrips(data.tripsres);
       } catch (err) {
         console.error(err);
@@ -51,7 +52,7 @@ export default function TripsPage() {
               key={trip.id}
               className="border rounded-lg p-4 shadow hover:shadow-lg"
             >
-              <h2 className="text-lg font-semibold">{trip.destination}</h2>
+              <h2 className="text-lg font-semibold">{trip.title}</h2>
               <p className="text-sm">
                 <strong>Start Date:</strong>{" "}
                 {new Date(trip.startDate).toLocaleDateString()}

@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const TripHostDashboard= ()=>{
@@ -9,7 +8,7 @@ const TripHostDashboard= ()=>{
     <div className="p-4">
       <h1 className="text-2xl font-bold">Trip host Dashboard</h1>
       <p>Welcome to the dashboard for Trip ID: {id}</p>
-      <Link href={'/traveller'}>all trips</Link>
+      {/* Fetch and display trip-specific details here */}
     </div>
   );
 }

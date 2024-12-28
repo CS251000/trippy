@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { tripTypes } from "@/lib/constants";
+import GoogleMapsAutocomplete from "@/components/extras/MapsAutocomplete";
 
 
 
@@ -37,14 +38,21 @@ export default function HostTripForm() {
     return errors;
   };
 
+  const handleLocationSelect = (destination) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      destination,
+    }));
+  };
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, trip_image: e.target.files[0] });
-  };
+  // const handleFileChange = (e) => {
+  //   setFormData({ ...formData, trip_image: e.target.files[0] });
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -98,7 +106,14 @@ export default function HostTripForm() {
             required
           />
           </div>
-        <div className="mb-4">
+          <GoogleMapsAutocomplete onLocationSelect={handleLocationSelect} />
+        {/* <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2">Destination</label>
+          <p className="border p-2 rounded bg-gray-100">
+            {formData.destination || "No location selected"}
+          </p>
+        </div> */}
+        {/* <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="destination">
             Destination
           </label>
@@ -112,7 +127,7 @@ export default function HostTripForm() {
             required
           />
           {errors.destination && <p className="text-red-500 text-sm">{errors.destination}</p>}
-        </div>
+        </div> */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="start_date">
             Start Date
@@ -205,7 +220,7 @@ export default function HostTripForm() {
             onChange={handleChange}
           ></textarea>
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="trip_image">
             Upload Trip Image (Optional)
           </label>
@@ -216,7 +231,7 @@ export default function HostTripForm() {
             className="w-full border p-2 rounded"
             onChange={handleFileChange}
           />
-        </div>
+        </div> */}
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.3",
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@radix-ui/react-dialog": "^1.1.4",
     "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.1",
