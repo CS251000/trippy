@@ -70,3 +70,22 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.login-page {
+    background-image: url("../public/images/login.jpg");
+}
+
+.cl-signIn-root, .cl-signUp-root {
+    margin-top: 90px;
+}
+
+.hero-section {
+    background-image: url("../public/images/image1.jpg"); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repeating */
+    position: relative; /* Ensures positioning for overlay content */
+    background-attachment: fixed;
+}
+
+

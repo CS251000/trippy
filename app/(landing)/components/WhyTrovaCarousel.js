@@ -23,8 +23,8 @@ const features = [
 
 const WhyTrovaCarousel = () => {
   return (
-    <div className="bg-pink-100 py-12">
-      <h2 className="text-4xl font-bold text-center mb-8">Why Trova?</h2>
+    <div className="bg-gray-200 py-12">
+      <h2 className="text-4xl font-bold text-center mb-8">Why Trippy?</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-8">
         {features.map((feature, index) => (
           <Card
