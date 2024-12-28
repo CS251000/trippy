@@ -5,45 +5,119 @@ import Link from "next/link";
 import { SignInButton } from "@clerk/nextjs";
 
 const HeroCarousel = () => {
-  const { isSignedIn } = useUser(); // Get user sign-in status from Clerk
+    const { isSignedIn } = useUser(); // Get user sign-in status from Clerk
 
-  return (
-    <div className="relative w-full">
-      <div className="relative w-full h-[500px]">
-        {/* <Image
-          //   src="/group-travel.jpg" // Add your image path here
-          alt="Group travel"
-          layout="fill"
-          objectFit="cover"
-        /> */}
-        <div className="absolute inset-0 flex flex-col items-start justify-center px-8 bg-black bg-opacity-40">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Group travel for communities
-          </h1>
-          <p className="text-lg text-white mb-6">
-            Host a group trip of your own, or book a spot to travel with a
-            built-in community.
-          </p>
-          <div className="flex gap-4 lg:hidden">
-            
-              <>
-                <Link href="/host" prefetch={true}>
-                  <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
-                    Host a Trip
-                  </button>
-                </Link>
-                <Link href="/traveller" prefetch={true}>
-                  <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
-                    Find a Trip
-                  </button>
-                </Link>
-              </>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    return (
+        <>
+            <header className="bg-cover bg-center bg-blue-600 text-white hero-section">
+                <div className="container mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between">
+                    <div className="text-center md:text-left">
+                        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                            Plan Your Perfect Trip
+                        </h1>
+                        <p className="text-lg md:text-xl mb-6">
+                            Discover new destinations, build your itinerary,
+                            and travel with ease.
+                        </p>
+                        <button className="bg-white text-blue-600 px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 transition font-semibold">
+                            Get Started
+                        </button>
+                    </div>
+                    <div className="mt-8 md:mt-0">
+                        <div className="w-full h-64 md:h-80 bg-gray-300 rounded-lg shadow-lg"></div>
+                    </div>
+                </div>
+            </header>
+            <section className="py-16 bg-gray-100">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-3xl font-bold mb-6">
+                        How It Works
+                    </h2>
+                    <p className="text-lg mb-12">
+                        Planning your trip has never been easier. Follow
+                        these simple steps:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+                        {/* Step 1 */}
+                        <div className="flex flex-col items-center cursor-pointer">
+                            <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 transform hover:scale-110 transition duration-300">
+                                1
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Create Itinerary
+                            </h3>
+                            <p className="text-sm">
+                                Plan your dream destinations and stops.
+                            </p>
+                        </div>
+                        {/* Step 2 */}
+                        <div className="flex flex-col items-center cursor-pointer">
+                            <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 transform hover:scale-110 transition duration-300">
+                                2
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Announce the Trip
+                            </h3>
+                            <p className="text-sm">
+                                Share your plans with your group.
+                            </p>
+                        </div>
+                        {/* Step 3 */}
+                        <div className="flex flex-col items-center cursor-pointer">
+                            <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 transform hover:scale-110 transition duration-300">
+                                3
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Invite Members
+                            </h3>
+                            <p className="text-sm">
+                                Add friends and family to your trip.
+                            </p>
+                        </div>
+                        {/* Step 4 */}
+                        <div className="flex flex-col items-center cursor-pointer">
+                            <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 transform hover:scale-110 transition duration-300">
+                                4
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Travel
+                            </h3>
+                            <p className="text-sm">
+                                Start your adventure and explore together.
+                            </p>
+                        </div>
+                        {/* Step 5 */}
+                        <div className="flex flex-col items-center cursor-pointer">
+                            <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 transform hover:scale-110 transition duration-300">
+                                5
+                            </div>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Enjoy
+                            </h3>
+                            <p className="text-sm">
+                                Make memories that last a lifetime.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Image Placeholder Section */}
+            <section className="bg-blue-400 py-16">
+                <div className="container mx-auto px-6">
+                    <h2 className="text-3xl font-bold text-center mb-12">
+                        Plan. Travel. Enjoy.
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="w-full h-64 bg-gray-300 rounded-lg"></div>
+                        <div className="w-full h-64 bg-gray-300 rounded-lg"></div>
+                        <div className="w-full h-64 bg-gray-300 rounded-lg"></div>
+                    </div>
+                </div>
+            </section>
+
+        </>
+    );
 };
 
 export default HeroCarousel;

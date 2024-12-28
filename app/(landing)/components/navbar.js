@@ -54,14 +54,14 @@ export const NavbarPage = () => {
 
       {/* Call-to-Action Buttons */}
       <div className="hidden md:flex gap-4">
-        <Link href="/host" prefetch={true}>
-          <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
-            Host a Trip
+        <Link href="/sign-in" prefetch={true}>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+            Sign-in
           </button>
         </Link>
-        <Link href="/traveller" prefetch={true}>
+        <Link href="/sign-up" prefetch={true}>
           <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
-            Find a Trip
+            Sign-up
           </button>
         </Link>
       </div>
