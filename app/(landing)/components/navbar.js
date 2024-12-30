@@ -1,16 +1,21 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { navItems } from "@/lib/constants";
+import { SignInButton, SignUpButton, useUser, UserButton } from "@clerk/nextjs";
 
 export const NavbarPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isSignedIn, user } = useUser();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-
-  
+  // Debugging
+  useEffect(() => {
+    console.log("isSignedIn:", isSignedIn);
+    console.log("user:", user);
+  }, [isSignedIn, user]);
 
   return (
     <div className="sticky top-0 z-50 flex justify-between items-center px-8 py-4 bg-black text-white font-mono shadow-lg">
@@ -54,16 +59,28 @@ export const NavbarPage = () => {
 
       {/* Call-to-Action Buttons */}
       <div className="hidden md:flex gap-4">
-        <Link href="/sign-in" prefetch={true}>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-            Sign-in
-          </button>
-        </Link>
-        <Link href="/sign-up" prefetch={true}>
-          <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
-            Sign-up
-          </button>
-        </Link>
+        {isSignedIn ? (
+          <div className="flex items-center space-x-4">
+            <span className="text-sm text-gray-300">
+              Hello, {user?.firstName || "User"}!
+            </span>
+            <UserButton />
+          </div>
+        ) : (
+          <>
+            <SignInButton>
+              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                Sign-in
+              </button>
+            </SignInButton>
+
+            <SignUpButton>
+              <button className="bg-white text-gray-800 py-2 px-4 rounded hover:bg-gray-200">
+                Sign-up
+              </button>
+            </SignUpButton>
+          </>
+        )}
       </div>
     </div>
   );

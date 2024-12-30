@@ -7,7 +7,7 @@ export default function SignUpPage() {
 
     return (
         <>
-            <NavbarPage />
+            {/* <NavbarPage /> */}
             <div className="bg-blue-500 bg-cover flex h-screen login-page flex-wrap h-vh justify-center pt-6">
                 <SignUp />
             </div>

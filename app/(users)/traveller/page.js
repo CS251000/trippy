@@ -23,7 +23,7 @@ export default function TripsPage() {
           throw new Error("Failed to fetch trips");
         }
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         setTrips(data.tripsres);
       } catch (err) {
         console.error(err);
