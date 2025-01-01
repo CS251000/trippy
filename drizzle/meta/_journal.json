@@ -64,6 +64,34 @@
       "when": 1735038065665,
       "tag": "0008_exotic_nebula",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1735715807540,
+      "tag": "0009_soft_mongoose",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1735715874614,
+      "tag": "0010_robust_junta",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1735715982067,
+      "tag": "0011_fuzzy_rattler",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1735716075890,
+      "tag": "0012_ambitious_roulette",
+      "breakpoints": true
     }
   ]
 }

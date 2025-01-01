@@ -1,5 +1,5 @@
 
-import NavbarPage from '@/app/(landing)/components/Navbar'
+import NavbarPage from '@/components/Landing/LandingNavbar'
 import { SignUp } from '@clerk/nextjs'
 import Link from 'next/link'
 

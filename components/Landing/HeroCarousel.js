@@ -19,9 +19,11 @@ const HeroCarousel = () => {
                             Discover new destinations, build your itinerary,
                             and travel with ease.
                         </p>
+                        <Link href={'/traveller'}>
                         <button className="bg-white text-blue-600 px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 transition font-semibold">
                             Get Started
                         </button>
+                        </Link>
                     </div>
                     <div className="mt-8 md:mt-0">
                         <div className="w-full h-64 md:h-80 bg-gray-300 rounded-lg shadow-lg"></div>

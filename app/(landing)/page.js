@@ -1,6 +1,6 @@
 // app/landing/page.js
-import HeroCarousel from "./components/HeroCarousel";
-import WhyTrovaCarousel from "./components/WhyTrovaCarousel";
+import HeroCarousel from "../../components/Landing/HeroCarousel";
+import WhyTrovaCarousel from "../../components/Landing/WhyTrovaCarousel";
 
 const LandingPage = () => {
   return (

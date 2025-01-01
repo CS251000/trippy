@@ -1,0 +1,1 @@
+ALTER TABLE "users_to_trips" ALTER COLUMN "user_id" SET DATA TYPE integer;

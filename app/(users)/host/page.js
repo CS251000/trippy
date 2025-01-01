@@ -1,21 +1,25 @@
 "use client";
-import Link from 'next/link'
-import React from 'react'
-import { usePathname } from 'next/navigation'
 
-export default function HostDashboard() {
-    const pathName= usePathname();
+import { useUser } from "@clerk/nextjs";
 
+const HostDashboard = () => {
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return <p>Loading...</p>; 
+  }
+
+  const userId = user?.id;
+  const userName = user?.firstName || user?.username || "Guest"; 
 
   return (
-    <div>
-        <Link href={`${pathName}/host-trip-form`}>
-        <button>Host trip</button>
-        </Link>
-
-    
-
-      
+    <div className="p-4">
+      <h1 className="text-2xl font-bold">Trip Host Dashboard</h1>
+      <p>Welcome, {userName}!</p>
+      <p>Your User ID: {userId}</p>
+     
     </div>
-  )
-}
+  );
+};
+
+export default HostDashboard;

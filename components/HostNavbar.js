@@ -5,7 +5,7 @@ import Image from "next/image";
 import { navItems } from "@/lib/constants";
 import { SignInButton, SignUpButton, useUser, UserButton } from "@clerk/nextjs";
 
-export const NavbarPage = () => {
+export const HostNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
 
@@ -29,7 +29,11 @@ export const NavbarPage = () => {
       {/* Desktop Navbar */}
       <div className="hidden md:flex items-center space-x-8">
         {navItems.map((item) => (
-          <Link key={item.name} href={item.path} className="hover:text-gray-400">
+          <Link
+            key={item.name}
+            href={item.path}
+            className="hover:text-gray-400"
+          >
             {item.name}
           </Link>
         ))}
@@ -59,6 +63,11 @@ export const NavbarPage = () => {
 
       {/* Call-to-Action Buttons */}
       <div className="hidden md:flex gap-4">
+        <Link href={'/host/host-trip-form'}>
+        <button className="bg-red-500 text-black py-2 px-4 rounded hover:bg-red-600">
+          + Host a trip
+        </button>
+        </Link>
         {isSignedIn ? (
           <div className="flex items-center space-x-4">
             <span className="text-sm text-gray-300">
@@ -86,4 +95,4 @@ export const NavbarPage = () => {
   );
 };
 
-export default NavbarPage;
+export default HostNavbar;

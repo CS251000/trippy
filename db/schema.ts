@@ -50,6 +50,8 @@ export const tripStatusEnum= pgEnum('trip_status',[
 // Users
 export const users = pgTable("users", {
     id: serial("user_id").primaryKey(),
+    clerkId:text("clerk_id").notNull(),
+    fullName:varchar("full_name").notNull(),
     username: varchar("username", { length: MAX_USERNAME_LENGTH }).notNull(),
     email: varchar("email", { length: MAX_EMAIL_LENGTH }).notNull().unique(),
     phoneNumber: varchar("phone_number", { length: 15 }).unique(),
