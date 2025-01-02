@@ -1,8 +1,12 @@
 import { trips } from "@/db/schema"; 
+import { usersToTrips } from "@/db/schema";
 import { db } from "@/db";
+import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req) {
   try {
+    const {userId}= await auth();
+
     const formData = await req.formData(); 
     // console.log(formData);
     const title= formData.get("title")
@@ -43,11 +47,17 @@ export async function POST(req) {
 
       })
       .returning({ id: trips.id }); 
+      const tripId = result[0].id;
+      await db.insert(usersToTrips).values({
+        userId,
+        tripId,
+        role:"host"
+      });
       
     return new Response(
       JSON.stringify({
         message: "Trip details saved successfully!",
-        id: result[0]?.id, 
+        id: tripId, 
       }),
       { status: 200 }
     );

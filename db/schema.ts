@@ -95,9 +95,9 @@ export const role = pgEnum("role", ["host", "admin", "member"]);
 export const usersToTrips = pgTable(
     "users_to_trips",
     {
-        userId: integer("user_id")
+        userId: text("user_id")
             .notNull()
-            .references(() => users.id),
+            .references(() => users.clerkId),
         tripId: integer("trip_id")
             .notNull()
             .references(() => trips.id),
