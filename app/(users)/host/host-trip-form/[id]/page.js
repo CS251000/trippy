@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
+
+
 const TripHostDashboard= ()=>{
   const { id } = useParams();
 

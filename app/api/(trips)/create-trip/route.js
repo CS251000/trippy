@@ -51,7 +51,8 @@ export async function POST(req) {
       await db.insert(usersToTrips).values({
         userId,
         tripId,
-        role:"host"
+        role:"host",
+        status:"Scheduled",
       });
       
     return new Response(

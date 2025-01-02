@@ -69,7 +69,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 // Trips
 export const trips = pgTable("trips", {
-    id: serial("trip_id").primaryKey(),
+    id: serial("trip_id").primaryKey().unique(),
     title: varchar("title", { length: MAX_TRIP_TITLE_LENGTH }),
     description: text("description"),
     destination: varchar("destination", {
@@ -102,6 +102,9 @@ export const usersToTrips = pgTable(
             .notNull()
             .references(() => trips.id),
         role: role(),
+        status:tripStatusEnum()
+        .references(()=>trips.status),
+
     },
     (t) => ({
         pk: primaryKey({ columns: [t.userId, t.tripId] }),

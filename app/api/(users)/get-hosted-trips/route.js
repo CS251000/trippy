@@ -4,21 +4,21 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export  async function GET(req) {
-    const {searchParams}= new URL(req.url);
-    const userId= searchParams.get("userId");
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
 
     try {
-      const hostedTrips = await db
-        .select()
-        .from(usersToTrips)
-        .where(eq(usersToTrips.userId,userId));
+        const hostedTrips = await db
+            .select()
+            .from(usersToTrips)
+            .leftJoin(trips, eq(usersToTrips.tripId, trips.id))
+            .where(eq(usersToTrips.userId, userId));
 
-        console.log("hosted",hostedTrips);
-        
-      return NextResponse.json({trips:hostedTrips},{status:200});
+        // console.log("hostedTrips", hostedTrips);
+
+        return NextResponse.json({ trips: hostedTrips }, { status: 200 });
     } catch (error) {
-      console.error("Error fetching hosted trips:", error);
-      return NextResponse.json({status:500},{error:error.message});
+        console.error("Error fetching hosted trips:", error);
+        return NextResponse.json({ status: 500, error: error.message });
     }
-  } 
-
+}

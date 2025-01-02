@@ -1,0 +1,2 @@
+ALTER TABLE "users_to_trips" ADD COLUMN "status" "trip_status";--> statement-breakpoint
+ALTER TABLE "users_to_trips" ADD CONSTRAINT "users_to_trips_status_trips_status_fk" FOREIGN KEY ("status") REFERENCES "public"."trips"("status") ON DELETE no action ON UPDATE no action;

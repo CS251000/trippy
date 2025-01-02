@@ -62,7 +62,7 @@ export const HostNavbar = () => {
       )}
 
       {/* Call-to-Action Buttons */}
-      <div className="hidden md:flex gap-4">
+      <div className=" md:flex gap-4">
         <Link href={'/host/host-trip-form'}>
         <button className="bg-red-500 text-black py-2 px-4 rounded hover:bg-red-600">
           + Host a trip
