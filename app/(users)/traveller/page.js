@@ -4,6 +4,8 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Loading from "@/app/loading";
+import Image from "next/image";
+
 
 
 
@@ -23,8 +25,8 @@ export default function TripsPage() {
           throw new Error("Failed to fetch trips");
         }
         const data = await res.json();
-        // console.log(data);
-        setTrips(data.tripsres);
+        console.log(data);
+        setTrips(data.tripsWithImages);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -35,6 +37,9 @@ export default function TripsPage() {
 
     fetchTrips();
   }, []);
+  // console.log("trips",trips);
+
+  
 
   if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
@@ -50,6 +55,15 @@ export default function TripsPage() {
               key={trip.id}
               className="border rounded-lg p-4 shadow hover:shadow-lg"
             >
+              {trip.imageUrl && (
+              <Image
+                src={trip.imageUrl}
+                alt={trip.destination}
+                width={200}
+                height={100}
+                className="rounded-md mb-4"
+              />
+            )}
               <h2 className="text-lg font-semibold">{trip.title}</h2>
               <p className="text-sm">
                 <strong>Start Date:</strong>{" "}
