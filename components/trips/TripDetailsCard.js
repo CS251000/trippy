@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Star, UserPlus } from "lucide-react";
+import { Star, UserPlus, UserPlus } from "lucide-react";
+
 import { useUser } from "@clerk/nextjs";
 
 import {
@@ -11,6 +12,16 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "../ui/button";
 
 import {
   Card,
@@ -36,6 +47,21 @@ export default function TripDetailsCard({ trip }) {
     const year = date.getFullYear();
     return `${day} ${month}, ${year}`;
   };
+  const date1 = new Date(trip.startDate);
+  const date2 = new Date(trip.endDate);
+  const day1 = date1.getDate();
+  const month1 = date1.toLocaleString("default", { month: "long" });
+  const year1 = date1.getFullYear();
+  const day2 = date2.getDate();
+  const month2 = date2.toLocaleString("default", { month: "long" });
+  const year2 = date2.getFullYear();
+
+  const formatDestination = (destination) => {
+    if (!destination) return "N/A";
+    const parts = destination.split(",").map((part) => part.trim());
+    return parts.slice(1).join(", ");
+  };
+  const dest = formatDestination(trip.destination);
   const date1 = new Date(trip.startDate);
   const date2 = new Date(trip.endDate);
   const day1 = date1.getDate();
@@ -128,7 +154,7 @@ export default function TripDetailsCard({ trip }) {
           {/* Second Line */}
           <div className="flex items-center justify-between w-full mt-4">
             {/* Left: Trip Type */}
-            <span className="text-cyan-500 text-lg px-4 mt-2">{tripType}</span>
+            <span className="text-cyan-500 text-lg px-4 mt-2">{trip.type}</span>
 
             {/* Right: Trip Status */}
             <span className="text-gray-500 text-2xl text-right">{`Trip ${trip.status}`}</span>
@@ -173,14 +199,9 @@ export default function TripDetailsCard({ trip }) {
         </div>
 
         {/* Trip Details */}
-        <div className="mt-4 flex flex-row justify-between">
-          <div className="flex flex-col">
+        <div className="mt-4 flex flex-row justify-between items-center ">
           <p className="text-lg">{trip.description}</p>
-          <TripDetailsTabs/>
-         
-          </div>
-          <div>
-          <Card className=" sticky top-20 bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4 h-48">
+          <Card className="bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4">
             <CardHeader>
               <CardTitle className="text-4xl">
                 {trip.budget} <span className="text-xl text-gray-500">INR</span>
@@ -207,17 +228,12 @@ export default function TripDetailsCard({ trip }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href={`/traveller/traveller-trip-form?tripId=${trip.id}`}>
-              
               <Button>
                 <UserPlus />
                 Join Trip Now
               </Button>
-              </Link>
-              
             </CardContent>
           </Card>
-          </div>
         </div>
       </div>
     </div>
