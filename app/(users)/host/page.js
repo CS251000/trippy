@@ -1,6 +1,5 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HostTripCard from "@/components/trips/HostDashboardTrip";
@@ -195,4 +194,4 @@ const HostDashboard = () => {
     );
 };
 
-export default HostDashboard;
+export default Dashboard;
