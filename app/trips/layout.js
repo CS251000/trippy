@@ -1,4 +1,4 @@
-import { TravellerNavbar } from "../../../components/TravellerNavbar";
+import { TravellerNavbar } from "../../components/TravellerNavbar";
 
 const TravellerLayout = (
     {children}

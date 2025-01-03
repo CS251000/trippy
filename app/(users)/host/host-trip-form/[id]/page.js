@@ -11,7 +11,7 @@ const TripHostDashboard= ()=>{
     <div className="p-4">
       <h1 className="text-2xl font-bold">Trip host Dashboard</h1>
       <p>Welcome to the dashboard for Trip ID: {id}</p>
-      <Link href={'/traveller'}>all trips</Link>
+      <Link href={'/trips'}>all trips</Link>
     </div>
   );
 }

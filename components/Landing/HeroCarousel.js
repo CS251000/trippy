@@ -19,7 +19,7 @@ const HeroCarousel = () => {
                             Discover new destinations, build your itinerary,
                             and travel with ease.
                         </p>
-                        <Link href={'/traveller'}>
+                        <Link href={'/trips'}>
                         <button className="bg-white text-blue-600 px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 transition font-semibold">
                             Get Started
                         </button>

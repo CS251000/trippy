@@ -38,14 +38,7 @@ const TripDetailsTraveller = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="p-4">
-      <div>
-        <Link href="/">Home</Link>
-      </div>
-      <div>
-        <Link href="/traveller">All trips</Link>
-      </div>
-      <h1 className="text-2xl font-bold mb-4">Trip Details</h1>
+    <div>
       {trip ? (
         <TripDetailsCard trip={trip} /> 
       ) : (
