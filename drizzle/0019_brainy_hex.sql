@@ -1,0 +1,1 @@
+ALTER TABLE "trips" DROP CONSTRAINT "trips_trip_id_unique";

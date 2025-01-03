@@ -69,7 +69,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 // Trips
 export const trips = pgTable("trips", {
-    id: serial("trip_id").primaryKey().unique(),
+    id: serial("trip_id").primaryKey(),
     title: varchar("title", { length: MAX_TRIP_TITLE_LENGTH }),
     description: text("description"),
     destination: varchar("destination", {
@@ -80,7 +80,8 @@ export const trips = pgTable("trips", {
     participantsUpperLimit:integer('participants_upper_limit'),
     budget: numeric("budget", { precision: 10, scale: 2 }).notNull(),
     type: tripTypeEnum().notNull(),
-    status:tripStatusEnum().notNull()
+    status:tripStatusEnum().notNull(),
+    rating:integer("trip_rating").default(0),
 });
 
 export const tripsRelations = relations(trips, ({ many }) => ({
@@ -97,13 +98,13 @@ export const usersToTrips = pgTable(
     {
         userId: text("user_id")
             .notNull()
-            .references(() => users.clerkId),
+            .references(() => users.clerkId,{onDelete:'cascade'}),
         tripId: integer("trip_id")
             .notNull()
-            .references(() => trips.id),
+            .references(() => trips.id,{onDelete:'cascade'}),
         role: role(),
         status:tripStatusEnum()
-        .references(()=>trips.status),
+        .references(()=>trips.status,{onDelete:'cascade'}),
 
     },
     (t) => ({
@@ -135,7 +136,7 @@ export const itineraryItems = pgTable("itinerary_items", {
     image: text("image"),
     startTime: timestamp("start_time").notNull(),
     endTime: timestamp("end_time").notNull(),
-    tripId: integer("trip_id").notNull().references(() => trips.id),
+    tripId: integer("trip_id").notNull().references(() => trips.id,{onDelete:'cascade'}),
 });
 
 export const itineraryItemsRelations = relations(itineraryItems, ({ one }) => ({
@@ -149,8 +150,8 @@ export const itineraryItemsRelations = relations(itineraryItems, ({ one }) => ({
 export const reviews = pgTable("review", {
     id: serial("review_id").primaryKey(),
     rating: integer("rating").notNull(),
-    tripId: integer("trip_id").notNull().references(() => trips.id),
-    userId: integer("user_id").notNull().references(() => users.id),
+    tripId: integer("trip_id").notNull().references(() => trips.id,{onDelete:'cascade'}),
+    userId: integer("user_id").notNull().references(() => users.id,{onDelete:'cascade'}),
     content: text("content").notNull(),
     createdAt: timestamp("created_at").defaultNow(),
 });

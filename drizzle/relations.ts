@@ -1,5 +1,43 @@
 import { relations } from "drizzle-orm/relations";
-import { chats, messages, users, trips, payments, review, itineraryItems, chatsToUsers, usersToTrips } from "./schema";
+import { trips, payments, users, review, chats, messages, itineraryItems, chatsToUsers, usersToTrips } from "./schema";
+
+export const paymentsRelations = relations(payments, ({one}) => ({
+	trip: one(trips, {
+		fields: [payments.tripId],
+		references: [trips.tripId]
+	}),
+	user: one(users, {
+		fields: [payments.userId],
+		references: [users.userId]
+	}),
+}));
+
+export const tripsRelations = relations(trips, ({many}) => ({
+	payments: many(payments),
+	reviews: many(review),
+	itineraryItems: many(itineraryItems),
+	chats: many(chats),
+	usersToTrips: many(usersToTrips),
+}));
+
+export const usersRelations = relations(users, ({many}) => ({
+	payments: many(payments),
+	reviews: many(review),
+	messages: many(messages),
+	chatsToUsers: many(chatsToUsers),
+	usersToTrips: many(usersToTrips),
+}));
+
+export const reviewRelations = relations(review, ({one}) => ({
+	trip: one(trips, {
+		fields: [review.tripId],
+		references: [trips.tripId]
+	}),
+	user: one(users, {
+		fields: [review.userId],
+		references: [users.userId]
+	}),
+}));
 
 export const messagesRelations = relations(messages, ({one}) => ({
 	chat: one(chats, {
@@ -19,44 +57,6 @@ export const chatsRelations = relations(chats, ({one, many}) => ({
 		references: [trips.tripId]
 	}),
 	chatsToUsers: many(chatsToUsers),
-}));
-
-export const usersRelations = relations(users, ({many}) => ({
-	messages: many(messages),
-	payments: many(payments),
-	reviews: many(review),
-	chatsToUsers: many(chatsToUsers),
-	usersToTrips: many(usersToTrips),
-}));
-
-export const tripsRelations = relations(trips, ({many}) => ({
-	chats: many(chats),
-	payments: many(payments),
-	reviews: many(review),
-	itineraryItems: many(itineraryItems),
-	usersToTrips: many(usersToTrips),
-}));
-
-export const paymentsRelations = relations(payments, ({one}) => ({
-	trip: one(trips, {
-		fields: [payments.tripId],
-		references: [trips.tripId]
-	}),
-	user: one(users, {
-		fields: [payments.userId],
-		references: [users.userId]
-	}),
-}));
-
-export const reviewRelations = relations(review, ({one}) => ({
-	trip: one(trips, {
-		fields: [review.tripId],
-		references: [trips.tripId]
-	}),
-	user: one(users, {
-		fields: [review.userId],
-		references: [users.userId]
-	}),
 }));
 
 export const itineraryItemsRelations = relations(itineraryItems, ({one}) => ({
@@ -80,7 +80,7 @@ export const chatsToUsersRelations = relations(chatsToUsers, ({one}) => ({
 export const usersToTripsRelations = relations(usersToTrips, ({one}) => ({
 	user: one(users, {
 		fields: [usersToTrips.userId],
-		references: [users.userId]
+		references: [users.clerkId]
 	}),
 	trip: one(trips, {
 		fields: [usersToTrips.tripId],

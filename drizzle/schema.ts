@@ -1,4 +1,4 @@
-import { pgTable, unique, serial, varchar, timestamp, text, integer, foreignKey, boolean, date, numeric, primaryKey, pgEnum } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, serial, varchar, integer, timestamp, text, boolean, unique, numeric, date, primaryKey, pgEnum } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const role = pgEnum("role", ['host', 'admin', 'member'])
@@ -6,18 +6,43 @@ export const tripStatus = pgEnum("trip_status", ['Scheduled', 'Ongoing', 'Comple
 export const tripType = pgEnum("trip_type", ['Relaxing', 'Adventurous', 'Sightseeing', 'Cultural', 'Wildlife', 'Beach', 'Hiking', 'Drizzle', 'Snowy', 'Romantic', 'FamilyFriendly', 'Historical', 'RoadTrip', 'Luxury', 'EcoFriendly', 'Festival', 'Wellness', 'AdventureSports', 'Cruise', 'Camping'])
 
 
-export const users = pgTable("users", {
-	userId: serial("user_id").primaryKey().notNull(),
-	username: varchar({ length: 64 }).notNull(),
-	email: varchar({ length: 320 }).notNull(),
-	phoneNumber: varchar("phone_number", { length: 15 }),
+export const payments = pgTable("payments", {
+	paymentId: serial("payment_id").primaryKey().notNull(),
+	status: varchar({ length: 50 }).notNull(),
+	tripId: integer("trip_id").notNull(),
+	userId: integer("user_id").notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
-	emergencyContact: varchar("emergency_contact", { length: 15 }),
-	profileImage: text("profile_image"),
-	age: integer().notNull(),
 }, (table) => [
-	unique("users_email_unique").on(table.email),
-	unique("users_phone_number_unique").on(table.phoneNumber),
+	foreignKey({
+			columns: [table.tripId],
+			foreignColumns: [trips.tripId],
+			name: "payments_trip_id_trips_trip_id_fk"
+		}),
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.userId],
+			name: "payments_user_id_users_user_id_fk"
+		}),
+]);
+
+export const review = pgTable("review", {
+	reviewId: serial("review_id").primaryKey().notNull(),
+	rating: integer().notNull(),
+	tripId: integer("trip_id").notNull(),
+	userId: integer("user_id").notNull(),
+	content: text().notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
+}, (table) => [
+	foreignKey({
+			columns: [table.tripId],
+			foreignColumns: [trips.tripId],
+			name: "review_trip_id_trips_trip_id_fk"
+		}).onDelete("cascade"),
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.userId],
+			name: "review_user_id_users_user_id_fk"
+		}).onDelete("cascade"),
 ]);
 
 export const messages = pgTable("messages", {
@@ -42,68 +67,19 @@ export const messages = pgTable("messages", {
 		}),
 ]);
 
-export const chats = pgTable("chats", {
-	id: serial().primaryKey().notNull(),
-	tripId: integer("trip_id").notNull(),
+export const users = pgTable("users", {
+	userId: serial("user_id").primaryKey().notNull(),
+	username: varchar({ length: 64 }).notNull(),
+	email: varchar({ length: 320 }).notNull(),
+	phoneNumber: varchar("phone_number", { length: 15 }),
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
+	emergencyContact: varchar("emergency_contact", { length: 15 }),
+	profileImage: text("profile_image"),
+	age: integer().notNull(),
+	clerkId: text("clerk_id").notNull(),
+	fullName: varchar("full_name").notNull(),
 }, (table) => [
-	foreignKey({
-			columns: [table.tripId],
-			foreignColumns: [trips.tripId],
-			name: "chats_trip_id_trips_trip_id_fk"
-		}),
-]);
-
-export const payments = pgTable("payments", {
-	paymentId: serial("payment_id").primaryKey().notNull(),
-	status: varchar({ length: 50 }).notNull(),
-	tripId: integer("trip_id").notNull(),
-	userId: integer("user_id").notNull(),
-	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
-}, (table) => [
-	foreignKey({
-			columns: [table.tripId],
-			foreignColumns: [trips.tripId],
-			name: "payments_trip_id_trips_trip_id_fk"
-		}),
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.userId],
-			name: "payments_user_id_users_user_id_fk"
-		}),
-]);
-
-export const trips = pgTable("trips", {
-	tripId: serial("trip_id").primaryKey().notNull(),
-	title: varchar({ length: 100 }),
-	description: text(),
-	destination: varchar({ length: 100 }).notNull(),
-	startDate: date("start_date").notNull(),
-	endDate: date("end_date").notNull(),
-	participantsUpperLimit: integer("participants_upper_limit"),
-	budget: numeric({ precision: 10, scale:  2 }).notNull(),
-	type: tripType().notNull(),
-	status: tripStatus().notNull(),
-});
-
-export const review = pgTable("review", {
-	reviewId: serial("review_id").primaryKey().notNull(),
-	rating: integer().notNull(),
-	tripId: integer("trip_id").notNull(),
-	userId: integer("user_id").notNull(),
-	content: text().notNull(),
-	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
-}, (table) => [
-	foreignKey({
-			columns: [table.tripId],
-			foreignColumns: [trips.tripId],
-			name: "review_trip_id_trips_trip_id_fk"
-		}),
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.userId],
-			name: "review_user_id_users_user_id_fk"
-		}),
+	unique("users_clerk_id_unique").on(table.clerkId),
 ]);
 
 export const itineraryItems = pgTable("itinerary_items", {
@@ -123,6 +99,32 @@ export const itineraryItems = pgTable("itinerary_items", {
 			columns: [table.tripId],
 			foreignColumns: [trips.tripId],
 			name: "itinerary_items_trip_id_trips_trip_id_fk"
+		}).onDelete("cascade"),
+]);
+
+export const trips = pgTable("trips", {
+	tripId: serial("trip_id").primaryKey().notNull(),
+	title: varchar({ length: 100 }),
+	description: text(),
+	destination: varchar({ length: 100 }).notNull(),
+	startDate: date("start_date").notNull(),
+	endDate: date("end_date").notNull(),
+	participantsUpperLimit: integer("participants_upper_limit"),
+	budget: numeric({ precision: 10, scale:  2 }).notNull(),
+	type: tripType().notNull(),
+	status: tripStatus().notNull(),
+	tripRating: integer("trip_rating").default(0),
+});
+
+export const chats = pgTable("chats", {
+	id: serial().primaryKey().notNull(),
+	tripId: integer("trip_id").notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
+}, (table) => [
+	foreignKey({
+			columns: [table.tripId],
+			foreignColumns: [trips.tripId],
+			name: "chats_trip_id_trips_trip_id_fk"
 		}),
 ]);
 
@@ -144,19 +146,20 @@ export const chatsToUsers = pgTable("chats_to_users", {
 ]);
 
 export const usersToTrips = pgTable("users_to_trips", {
-	userId: integer("user_id").notNull(),
+	userId: text("user_id").notNull(),
 	tripId: integer("trip_id").notNull(),
 	role: role(),
+	status: tripStatus(),
 }, (table) => [
 	foreignKey({
 			columns: [table.userId],
-			foreignColumns: [users.userId],
-			name: "users_to_trips_user_id_users_user_id_fk"
-		}),
+			foreignColumns: [users.clerkId],
+			name: "users_to_trips_user_id_users_clerk_id_fk"
+		}).onDelete("cascade"),
 	foreignKey({
 			columns: [table.tripId],
 			foreignColumns: [trips.tripId],
 			name: "users_to_trips_trip_id_trips_trip_id_fk"
-		}),
+		}).onDelete("cascade"),
 	primaryKey({ columns: [table.userId, table.tripId], name: "users_to_trips_user_id_trip_id_pk"}),
 ]);
