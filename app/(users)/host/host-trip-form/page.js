@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { tripTypes } from "@/lib/constants";
 import GoogleMapsAutocomplete from "@/components/extras/MapsAutocomplete";
-
+import { DatePickerWithRange } from "@/components/extras/DatePickerrange";
+import { TypeComboBox } from "@/components/extras/TypeDropdown";
 
 
 export default function HostTripForm() {
@@ -53,6 +54,15 @@ export default function HostTripForm() {
   // const handleFileChange = (e) => {
   //   setFormData({ ...formData, trip_image: e.target.files[0] });
   // };
+  const handleDateChange = (range) => {
+    if (range?.from && range?.to) {
+      setFormData({
+        ...formData,
+        start_date: range.from,
+        end_date: range.to,
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,78 +117,34 @@ export default function HostTripForm() {
           />
           </div>
           <GoogleMapsAutocomplete onLocationSelect={handleLocationSelect} />
-        {/* <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2">Destination</label>
-          <p className="border p-2 rounded bg-gray-100">
-            {formData.destination || "No location selected"}
-          </p>
-        </div> */}
-        {/* <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="destination">
-            Destination
+        
+          <div className="mb-4 mt-6">
+          <label className="block text-gray-700 font-medium mb-2" htmlFor="dateRange">
+            Select Dates
           </label>
-          <input
-            type="text"
-            name="destination"
-            id="destination"
-            className={`w-full border p-2 rounded ${errors.destination ? "border-red-500" : ""}`}
-            value={formData.destination}
-            onChange={handleChange}
-            required
+          <DatePickerWithRange
+            className="w-full"
+            onSelect={handleDateChange}
           />
-          {errors.destination && <p className="text-red-500 text-sm">{errors.destination}</p>}
-        </div> */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="start_date">
-            Start Date
-          </label>
-          <input
-            type="date"
-            name="start_date"
-            id="start_date"
-            className={`w-full border p-2 rounded ${errors.start_date ? "border-red-500" : ""}`}
-            value={formData.start_date}
-            onChange={handleChange}
-            required
-          />
-          {errors.start_date && <p className="text-red-500 text-sm">{errors.start_date}</p>}
+          {errors.start_date && (
+            <p className="text-red-500 text-sm">{errors.start_date}</p>
+          )}
+          {errors.end_date && (
+            <p className="text-red-500 text-sm">{errors.end_date}</p>
+          )}
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="end_date">
-            End Date
-          </label>
-          <input
-            type="date"
-            name="end_date"
-            id="end_date"
-            className={`w-full border p-2 rounded ${errors.end_date ? "border-red-500" : ""}`}
-            value={formData.end_date}
-            onChange={handleChange}
-            required
-          />
-          {errors.end_date && <p className="text-red-500 text-sm">{errors.end_date}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="trip_type">
-            Trip Type
-          </label>
-          <select
-            name="trip_type"
-            id="trip_type"
-            className={`w-full border p-2 rounded ${errors.trip_type ? "border-red-500" : ""}`}
+
+
+        <div className="mb-4 mt-6">
+          
+          <TypeComboBox
             value={formData.trip_type}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select a type</option>
-            {tripTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+            onChange={(value) => setFormData({ ...formData, trip_type: value })}
+          />
           {errors.trip_type && <p className="text-red-500 text-sm">{errors.trip_type}</p>}
         </div>
+
+
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="maxParticipants">
             Maximum participants
