@@ -47,14 +47,7 @@ export default function TripDetailsCard({ trip }) {
     const year = date.getFullYear();
     return `${day} ${month}, ${year}`;
   };
-  const date1 = new Date(trip.startDate);
-  const date2 = new Date(trip.endDate);
-  const day1 = date1.getDate();
-  const month1 = date1.toLocaleString("default", { month: "long" });
-  const year1 = date1.getFullYear();
-  const day2 = date2.getDate();
-  const month2 = date2.toLocaleString("default", { month: "long" });
-  const year2 = date2.getFullYear();
+  
 
   const formatDestination = (destination) => {
     if (!destination) return "N/A";
@@ -71,12 +64,7 @@ export default function TripDetailsCard({ trip }) {
   const month2 = date2.toLocaleString("default", { month: "long" });
   const year2 = date2.getFullYear();
 
-  const formatDestination = (destination) => {
-    if (!destination) return "N/A";
-    const parts = destination.split(",").map((part) => part.trim());
-    return parts.slice(1).join(", ");
-  };
-  const dest = formatDestination(trip.destination);
+
   const tripType = trip.type ? trip.type.join(" | ") : "N/A"; 
 
   return (

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { tripTypesMap } from "@/lib/constants";
 import GoogleMapsAutocomplete from "@/components/extras/MapsAutocomplete";
 import { DatePickerWithRange } from "@/components/extras/DatePickerrange";
+import { TypeComboBox } from "@/components/extras/TypeDropdown";import { DatePickerWithRange } from "@/components/extras/DatePickerrange";
 import { TypeComboBox } from "@/components/extras/TypeDropdown";
 import {
   MultiSelector,
@@ -64,6 +65,15 @@ export default function HostTripForm() {
   // const handleFileChange = (e) => {
   //   setFormData({ ...formData, trip_image: e.target.files[0] });
   // };
+  const handleDateChange = (range) => {
+    if (range?.from && range?.to) {
+      setFormData({
+        ...formData,
+        start_date: range.from,
+        end_date: range.to,
+      });
+    }
+  };
   const handleDateChange = (range) => {
     if (range?.from && range?.to) {
       setFormData({
