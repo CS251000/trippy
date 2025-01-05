@@ -4,9 +4,8 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Loading from "@/app/loading";
-
-
-
+import Image from "next/image";
+import TripCard from "@/components/trips/TripCard";
 
 export default function TripsPage() {
 

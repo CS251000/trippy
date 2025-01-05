@@ -3,37 +3,37 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 222.2 47.4% 11.2%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+      --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
@@ -42,32 +42,32 @@ body {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
+    .dark {
+        --background: 222.2 84% 4.9%;
+        --foreground: 210 40% 98%;
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 210 40% 98%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+        --secondary: 217.2 32.6% 17.5%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217.2 32.6% 17.5%;
+        --muted-foreground: 215 20.2% 65.1%;
+        --accent: 217.2 32.6% 17.5%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 217.2 32.6% 17.5%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 212.7 26.8% 83.9%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+      --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -79,19 +79,29 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+@layer components {
+    .primary-btn {
+        @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-blue-400 disabled:cursor-not-allowed;
+    }
+    .secondary-btn {
+        @apply py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed;
+    }
 }
 
 .login-page {
     background-image: url("../public/images/login.jpg");
 }
 
-.cl-signIn-root, .cl-signUp-root {
+.cl-signIn-root,
+.cl-signUp-root {
     margin-top: 90px;
 }
 
@@ -104,4 +114,126 @@ body {
     background-attachment: fixed;
 }
 
+.itinerary {
+    /* max-height: 80%; */
+}
 
+.itinerary-container {
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.itinerary-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.itinerary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.itinerary-item {
+    user-select: none;
+    display: flex;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* cursor: grab; */
+    padding-bottom: 10px;
+}
+
+.itinerary-item:hover {
+    background-color: #f0f0f0;
+}
+
+.itinerary-item:active {
+    cursor: grabbing;
+}
+
+.move-handle {
+    font-size: 1.2rem;
+    margin-right: 10px;
+    /* cursor: grab; */
+    color: #555;
+    align-content: center;
+}
+
+.move-handle-container {
+    display: flex;
+    align-items: center;
+}
+
+.itinerary-image {
+    margin-bottom: 10px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+.pill {
+    display: inline-block;
+    padding: 0.5em 1em;
+    font-size: 0.75rem; /* Equivalent to text-xs in Tailwind */
+    font-weight: 500; /* Equivalent to font-medium in Tailwind */
+    border-radius: 9999px; /* Fully rounded */
+    margin-right: 0.5em; /* Space between pills */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    cursor: pointer;
+}
+
+.pill:hover {
+    opacity: 0.8; /* Optional hover effect */
+}
+
+.food {
+    background-color: #FEF3C7; /* Tailwind yellow-100 */
+  }
+  
+  .food:hover {
+    background-color: #FDE68A; /* Tailwind yellow-300 */
+  }
+  
+  .travel {
+    background-color: #DBEAFE; /* Tailwind blue-100 */
+  }
+  
+  .travel:hover {
+    background-color: #93C5FD; /* Tailwind blue-300 */
+  }
+  
+  .sightseeing {
+    background-color: #D1FAE5; /* Tailwind green-100 */
+  }
+  
+  .sightseeing:hover {
+    background-color: #86EFAC; /* Tailwind green-300 */
+  }
+  
+  .adventure {
+    background-color: #F3E8FF; /* Tailwind purple-100 */
+  }
+  
+  .adventure:hover {
+    background-color: #D8B4FE; /* Tailwind purple-300 */
+  }
+  
+  .hotel {
+    background-color: #FCE7F3; /* Tailwind pink-100 */
+  }
+  
+  .hotel:hover {
+    background-color: #F9A8D4; /* Tailwind pink-300 */
+  }
+  
+  .other {
+    background-color: #F3F4F6; /* Tailwind gray-100 */
+  }
+  
+  .other:hover {
+    background-color: #D1D5DB; /* Tailwind gray-300 */
+  }
+  
