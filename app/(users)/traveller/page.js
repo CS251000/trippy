@@ -7,10 +7,6 @@ import Loading from "@/app/loading";
 import Image from "next/image";
 import TripCard from "@/components/trips/TripCard";
 
-
-
-
-
 export default function TripsPage() {
 
  

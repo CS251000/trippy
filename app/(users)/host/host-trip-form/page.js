@@ -76,7 +76,7 @@ export default function HostTripForm() {
       if (response.ok) {
         const data = await response.json();
         setStatus("Trip hosted successfully!");
-        router.push(`/host/host-trip-form/${data.id}`);
+        router.push(`/host/trip/${data.id}`);
       } else {
         const error = await response.json();
         setStatus(`Error: ${error.message}`);
