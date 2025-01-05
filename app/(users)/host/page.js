@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import HostTripCard from "@/components/trips/HostDashboardTrip";
 import Link from "next/link";
 import HostTripCard from "@/components/trips/HostDashboardTrip";
 
