@@ -6,10 +6,6 @@ import { useState, useEffect } from "react";
 import Loading from "@/app/loading";
 import Image from "next/image";
 
-
-
-
-
 export default function TripsPage() {
 
  

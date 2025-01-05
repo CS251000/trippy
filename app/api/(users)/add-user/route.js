@@ -5,9 +5,6 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export  async function POST(req) {
-
-
- 
   const body = await req.json();
   // console.log("body",body);
   const { clerkId, fullName, username, email, phoneNumber, createdAt, profileImage, age } = body;

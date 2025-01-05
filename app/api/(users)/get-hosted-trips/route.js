@@ -3,7 +3,7 @@ import { trips, usersToTrips } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-export  async function GET(req) {
+export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
 
