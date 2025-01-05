@@ -78,7 +78,8 @@ export default function TripsPage() {
   return (
     <div className="p-4">
       {/* Search Bar */}
-      <div className="mb-4">
+      <div className="flex flex-row justify-between ">
+      <div className="mb-4 mx-4 w-full">
         <Input
           type="text"
           placeholder="Search by destination or title"
@@ -90,9 +91,9 @@ export default function TripsPage() {
       <div className="flex justify-end mb-4">
         <Sheet>
           <SheetTrigger asChild>
-            <Button>Open Filter</Button>
+            <Button>Filter</Button>
           </SheetTrigger>
-          <SheetContent position="right" size="sm">
+          <SheetContent position="left" size="sm">
             <SheetTitle>Filter Trips</SheetTitle>
 
             {/* Filter by Trip Type */}
@@ -140,6 +141,7 @@ export default function TripsPage() {
             </Button>
           </SheetContent>
         </Sheet>
+      </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

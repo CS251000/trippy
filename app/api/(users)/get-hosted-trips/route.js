@@ -1,6 +1,6 @@
 import { db } from "@/db";
-import { trips, usersToTrips } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { trips, usersToTrips,reviews } from "@/db/schema";
+import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export  async function GET(req) {
@@ -15,6 +15,27 @@ export  async function GET(req) {
             .where(eq(usersToTrips.userId, userId));
 
         // console.log("hostedTrips", hostedTrips);
+        const completedTrips = hostedTrips.filter(
+            (trip) => trip.trips.status === "Completed"
+          );
+
+          for (const trip of completedTrips) {
+            const averageRatingResult = await db
+                .select({
+                    averageRating: sql`AVG(${reviews.rating})`.as("average_rating"),
+                })
+                .from(reviews)
+                .where(eq(reviews.tripId, trip.trips.id))
+                .then((res) => res[0]);
+
+                const averageRating = Math.round(averageRatingResult?.averageRating || 0);
+
+            await db
+                .update(trips)
+                .set({ rating:averageRating })
+                .where(eq(trips.id, trip.trips.id));
+        }
+        
 
         return NextResponse.json({ trips: hostedTrips }, { status: 200 });
     } catch (error) {

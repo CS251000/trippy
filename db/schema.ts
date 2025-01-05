@@ -151,7 +151,7 @@ export const reviews = pgTable("review", {
     id: serial("review_id").primaryKey(),
     rating: integer("rating").notNull(),
     tripId: integer("trip_id").notNull().references(() => trips.id,{onDelete:'cascade'}),
-    userId: integer("user_id").notNull().references(() => users.id,{onDelete:'cascade'}),
+    userClerkId: text("user_clerk_id").notNull().references(() => users.clerkId,{onDelete:'cascade'}),
     content: text("content").notNull(),
     createdAt: timestamp("created_at").defaultNow(),
 });
@@ -162,8 +162,8 @@ export const reviewRelations = relations(reviews, ({ one }) => ({
         references: [trips.id],
     }),
     user: one(users, {
-        fields: [reviews.userId],
-        references: [users.id],
+        fields: [reviews.userClerkId],
+        references: [users.clerkId],
     }),
 }));
 

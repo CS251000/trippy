@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import HostTripCard from "@/components/trips/HostDashboardTrip";
 
 const HostDashboard = () => {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -85,6 +86,44 @@ const HostDashboard = () => {
     return <p>Loading...</p>;
   }
 
+  const onDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/delete-trip?id=${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to delete the trip");
+      }
+  
+      // Filter the deleted trip out of all trip categories
+      const updatedHostedTrips = hostedTrips.filter((trip) => trip.trips.id !== id);
+      const updatedUpcomingTrips = upcomingTrips.filter((trip) => trip.trips.id !== id);
+      const updatedOngoingTrips = ongoingTrips.filter((trip) => trip.trips.id !== id);
+      const updatedCompletedTrips = completedTrips.filter((trip) => trip.trips.id !== id);
+  
+      // Update the state
+      setHostedTrips(updatedHostedTrips);
+      setUpcomingTrips(updatedUpcomingTrips);
+      setOngoingTrips(updatedOngoingTrips);
+      setCompletedTrips(updatedCompletedTrips);
+  
+      alert("Trip deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting trip:", error);
+      alert("Error deleting trip. Please try again.");
+    }
+  };
+  
+  
+  
+  const onUpdate= (id)=>{
+    console.log(id);
+  }
+
   const userName = user?.firstName || user?.username || "Guest";
 
   return (
@@ -103,10 +142,10 @@ const HostDashboard = () => {
         <TabsContent value="upcoming">
           <h2 className="mt-4 text-xl font-semibold">Upcoming Trips</h2>
           {upcomingTrips.length > 0 ? (
-            <ul className="mt-2 list-disc list-inside">
+            <ul className="mt-2 flex flex-row">
               {upcomingTrips.map((trip) => (
                 <li key={trip.trips.id}>
-                  Trip ID: {trip.trips.id}, Destination: {trip.trips.destination}
+                  <HostTripCard tripinfo={trip.trips} onDelete={onDelete} onUpdate={onUpdate}/>
                 </li>
               ))}
             </ul>
@@ -119,10 +158,10 @@ const HostDashboard = () => {
         <TabsContent value="ongoing">
           <h2 className="mt-4 text-xl font-semibold">Ongoing Trips</h2>
           {ongoingTrips.length > 0 ? (
-            <ul className="mt-2 list-disc list-inside">
+            <ul className="mt-2 flex flex-row">
               {ongoingTrips.map((trip) => (
-                <li key={trip.trips.tripId}>
-                  Trip ID: {trip.trips.tripId}, Destination: {trip.trips.destination}
+                <li key={trip.trips.id}>
+                  <HostTripCard tripinfo={trip.trips} onDelete={onDelete} onUpdate={onUpdate}/>
                 </li>
               ))}
             </ul>
@@ -135,10 +174,10 @@ const HostDashboard = () => {
         <TabsContent value="completed">
           <h2 className="mt-4 text-xl font-semibold">Completed Trips</h2>
           {completedTrips.length > 0 ? (
-            <ul className="mt-2 list-disc list-inside">
+            <ul className="mt-2 flex flex-row">
               {completedTrips.map((trip) => (
-                <li key={trip.trips.tripId}>
-                  Trip ID: {trip.trips.tripId}, Destination: {trip.trips.destination}
+                <li key={trip.trips.id}>
+                  <HostTripCard tripinfo={trip.trips} onDelete={onDelete} onUpdate={onUpdate}/>
                 </li>
               ))}
             </ul>
