@@ -16,7 +16,7 @@ export async function POST(req) {
     const description = formData.get("description");
     const maxParticipants = formData.get("maxParticipants");
     const budget = formData.get("budget");
-    const tripType = formData.get("trip_type");
+    let tripType = formData.get("trip_type");
     const tripImage = formData.get("trip_image");
 
 
@@ -27,6 +27,10 @@ export async function POST(req) {
         JSON.stringify({ message: "Missing required fields." }),
         { status: 400 }
       );
+    }
+
+    if (typeof tripType === "string") {
+      tripType = JSON.parse(tripType); 
     }
 
     const startDateParsed = new Date(start_date);

@@ -1,15 +1,15 @@
 "use client";
 import { useParams } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 
 const TripDetailsTraveller = () => {
-  const { id } = useParams();
+  const { userId } = useUser();
 
 
 
   return (
     <div>
-      <h1>Trip Details</h1>
-      <p>Trip ID: {id}</p>
+      FILL YOUR TRAVELLER INFO HERE
     </div>
   );
 };

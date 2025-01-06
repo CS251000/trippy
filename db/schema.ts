@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
     pgEnum,
     pgTable,
@@ -18,7 +18,7 @@ export const MAX_EMAIL_LENGTH = 320;
 export const MAX_DESTINATION_NAME_LENGTH = 100;
 export const MAX_TRIP_TITLE_LENGTH = 100;
 
-export const tripTypeEnum = pgEnum('trip_type', [
+export const tripTypeEnum = pgEnum('trip_types', [
   'Relaxing',        // A calm and peaceful trip
   'Adventurous',     // For thrill-seekers
   'Sightseeing',     // Exploring famous landmarks and attractions
@@ -79,7 +79,7 @@ export const trips = pgTable("trips", {
     endDate: date("end_date").notNull(),
     participantsUpperLimit:integer('participants_upper_limit'),
     budget: numeric("budget", { precision: 10, scale: 2 }).notNull(),
-    type: tripTypeEnum().notNull(),
+    type: tripTypeEnum().array().notNull().default(sql`ARRAY[]::trip_types[]`),
     status:tripStatusEnum().notNull(),
     rating:integer("trip_rating").default(0),
 });

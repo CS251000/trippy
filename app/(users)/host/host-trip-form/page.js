@@ -3,10 +3,20 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { tripTypes } from "@/lib/constants";
+import { tripTypesMap } from "@/lib/constants";
 import GoogleMapsAutocomplete from "@/components/extras/MapsAutocomplete";
 import { DatePickerWithRange } from "@/components/extras/DatePickerrange";
 import { TypeComboBox } from "@/components/extras/TypeDropdown";
+import {
+  MultiSelector,
+  MultiSelectorContent,
+  MultiSelectorInput,
+  MultiSelectorItem,
+  MultiSelectorList,
+  MultiSelectorTrigger,
+}from "@/components/ui/multiselector";
+
+
 
 
 export default function HostTripForm() {
@@ -18,7 +28,7 @@ export default function HostTripForm() {
     description: "",
     maxParticipants:"",
     budget: "",
-    trip_type: "",
+    trip_type: [],
     trip_image: null,
     
   });
@@ -32,7 +42,7 @@ export default function HostTripForm() {
     if (!formData.destination) errors.destination = "Destination is required.";
     if (!formData.start_date) errors.start_date = "Start date is required.";
     if (!formData.end_date) errors.end_date = "End date is required.";
-    if (!formData.trip_type) errors.trip_type = "Please select a trip type.";
+    if (formData.trip_type.length==0) errors.trip_type = "Please select a trip type.";
     if (formData.budget && isNaN(formData.budget)) errors.budget = "Budget must be a number.";
     if (new Date(formData.start_date) > new Date(formData.end_date))
       errors.end_date = "End date cannot be earlier than the start date.";
@@ -64,6 +74,13 @@ export default function HostTripForm() {
     }
   };
 
+  const handleTripTypeChange = (value) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      trip_type: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -75,7 +92,12 @@ export default function HostTripForm() {
     try {
       const formDataToSend = new FormData();
       for (const key in formData) {
-        formDataToSend.append(key, formData[key]);
+        if (key === "trip_type") {
+          
+          formDataToSend.append(key, JSON.stringify(formData[key]));
+        } else {
+          formDataToSend.append(key, formData[key]);
+        }
       }
 
       const response = await fetch("/api/create-trip", {
@@ -86,7 +108,7 @@ export default function HostTripForm() {
       if (response.ok) {
         const data = await response.json();
         setStatus("Trip hosted successfully!");
-        router.push(`/host/host-trip-form/${data.id}`);
+        router.push(`/trips/hostside-trips/${data.id}`);
       } else {
         const error = await response.json();
         setStatus(`Error: ${error.message}`);
@@ -136,11 +158,32 @@ export default function HostTripForm() {
 
 
         <div className="mb-4 mt-6">
+
+        <MultiSelector
+            values={formData.trip_type}
+            onValuesChange={handleTripTypeChange}
+            loop
+            className="max-w-xs"
+          >
+            <MultiSelectorTrigger>
+              <MultiSelectorInput placeholder="Select your trip type" />
+            </MultiSelectorTrigger>
+            <MultiSelectorContent>
+            <MultiSelectorList>
+                {tripTypesMap.map((type) => (
+                  <MultiSelectorItem key={type.value} value={type.value}>
+                    {type.label}
+                  </MultiSelectorItem>
+                ))}
+              </MultiSelectorList>
+            </MultiSelectorContent>
+          </MultiSelector>
           
-          <TypeComboBox
+          {/* <TypeComboBox
+          multiple
             value={formData.trip_type}
             onChange={(value) => setFormData({ ...formData, trip_type: value })}
-          />
+          /> */}
           {errors.trip_type && <p className="text-red-500 text-sm">{errors.trip_type}</p>}
         </div>
 
