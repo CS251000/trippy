@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Star, UserPlus, UserPlus } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 
 import { useUser } from "@clerk/nextjs";
 
@@ -22,6 +23,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
+import TripDetailsTabs from "./TripDetailsTabs";
+import Link from "next/link";
 
 import {
   Card,
@@ -65,6 +68,7 @@ export default function TripDetailsCard({ trip }) {
   const year2 = date2.getFullYear();
 
 
+  const tripType = trip.type ? trip.type.join(" | ") : "N/A"; 
   const tripType = trip.type ? trip.type.join(" | ") : "N/A"; 
 
   return (
@@ -142,7 +146,7 @@ export default function TripDetailsCard({ trip }) {
           {/* Second Line */}
           <div className="flex items-center justify-between w-full mt-4">
             {/* Left: Trip Type */}
-            <span className="text-cyan-500 text-lg px-4 mt-2">{trip.type}</span>
+            <span className="text-cyan-500 text-lg px-4 mt-2">{tripType}</span>
 
             {/* Right: Trip Status */}
             <span className="text-gray-500 text-2xl text-right">{`Trip ${trip.status}`}</span>
@@ -187,9 +191,14 @@ export default function TripDetailsCard({ trip }) {
         </div>
 
         {/* Trip Details */}
-        <div className="mt-4 flex flex-row justify-between items-center ">
+        <div className="mt-4 flex flex-row justify-between">
+          <div className="flex flex-col">
           <p className="text-lg">{trip.description}</p>
-          <Card className="bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4">
+          <TripDetailsTabs/>
+         
+          </div>
+          <div>
+          <Card className=" sticky top-20 bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4 h-48">
             <CardHeader>
               <CardTitle className="text-4xl">
                 {trip.budget} <span className="text-xl text-gray-500">INR</span>
@@ -216,12 +225,17 @@ export default function TripDetailsCard({ trip }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
+              <Link href={`/traveller/traveller-trip-form?tripId=${trip.id}`}>
+              
               <Button>
                 <UserPlus />
                 Join Trip Now
               </Button>
+              </Link>
+              
             </CardContent>
           </Card>
+          </div>
         </div>
       </div>
     </div>

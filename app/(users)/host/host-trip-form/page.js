@@ -91,6 +91,13 @@ export default function HostTripForm() {
     }));
   };
 
+  const handleTripTypeChange = (value) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      trip_type: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
