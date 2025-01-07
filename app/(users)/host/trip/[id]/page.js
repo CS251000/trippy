@@ -1,9 +1,9 @@
 "use client";
-import ItineraryItem from "@/components/ItineraryItem";
+import ItineraryItem from "@/components/itinerary/ItineraryItem";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import AddItineraryItemForm from "@/components/AddItinerayItemForm";
+import AddItineraryItemForm from "@/components/itinerary/AddItinerayItemForm";
 import { useUser } from "@clerk/nextjs";
 import SimpleBar from "simplebar-react";
 import 'simplebar-react/dist/simplebar.min.css';
@@ -13,6 +13,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 const TripHostDashboard = () => {
     const { id } = useParams();
     const  {user}  = useUser();
+    console.log(user);
     const [trip, setTrip] = useState(null);
     const [dates, setDates] = useState([]);
     const [dateIndex, setDateIndex] = useState(0);
@@ -47,6 +48,7 @@ const TripHostDashboard = () => {
         }
 
         async function fetchItinerary() {
+            console.log("userid",user.id);
             const body = {
                 userId: user.id,
                 tripId: id,

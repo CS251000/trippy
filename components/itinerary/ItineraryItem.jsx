@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { HiLocationMarker } from "react-icons/hi";
-import Pill from "./Pill";
+import Pill from "../Pill";
 import { FaPen, FaTrash } from "react-icons/fa";
 import EditItineraryItemForm from "./EditItineraryItemForm";
 import DeleteItineraryItem from "./DeleteItineraryItem";

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import SimpleBar from "simplebar-react";
-import GoogleMapsAutocomplete from "./extras/MapsAutocomplete";
+import GoogleMapsAutocomplete from "../extras/MapsAutocomplete";
 import { itineraryItemTypes } from "@/lib/constants";
 import { useUser } from "@clerk/nextjs";
 import "simplebar-react/dist/simplebar.min.css";
