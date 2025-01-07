@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Star, UserPlus, UserPlus } from "lucide-react";
+import { Star, UserPlus } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
-import { useUser } from "@clerk/nextjs";
 
 import {
   Carousel,
@@ -26,17 +25,7 @@ import { Button } from "../ui/button";
 import TripDetailsTabs from "./TripDetailsTabs";
 import Link from "next/link";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "../ui/button";
-import TripDetailsTabs from "./TripDetailsTabs";
-import Link from "next/link";
+
 
 export default function TripDetailsCard({ trip }) {
   const {user}=useUser();
@@ -69,7 +58,7 @@ export default function TripDetailsCard({ trip }) {
 
 
   const tripType = trip.type ? trip.type.join(" | ") : "N/A"; 
-  const tripType = trip.type ? trip.type.join(" | ") : "N/A"; 
+
 
   return (
     <div className="w-screen mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

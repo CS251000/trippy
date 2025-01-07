@@ -188,7 +188,7 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
                             <form className="p-4" onSubmit={handleSubmit}>
                                 {/* Error Message */}
                                 {error && (
-                                    <p className="text-red-5000 text-sm mb-4">
+                                    <p className="mb-4 p-3 text-white bg-red-300 border border-red-600 rounded">
                                         {error}
                                     </p>
                                 )}

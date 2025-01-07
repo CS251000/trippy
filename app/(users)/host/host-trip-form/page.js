@@ -6,8 +6,8 @@ import Link from "next/link";
 import { tripTypesMap } from "@/lib/constants";
 import GoogleMapsAutocomplete from "@/components/extras/MapsAutocomplete";
 import { DatePickerWithRange } from "@/components/extras/DatePickerrange";
-import { TypeComboBox } from "@/components/extras/TypeDropdown";import { DatePickerWithRange } from "@/components/extras/DatePickerrange";
 import { TypeComboBox } from "@/components/extras/TypeDropdown";
+
 import {
   MultiSelector,
   MultiSelectorContent,
@@ -16,8 +16,6 @@ import {
   MultiSelectorList,
   MultiSelectorTrigger,
 }from "@/components/ui/multiselector";
-
-
 
 
 export default function HostTripForm() {
@@ -66,6 +64,7 @@ export default function HostTripForm() {
   //   setFormData({ ...formData, trip_image: e.target.files[0] });
   // };
   const handleDateChange = (range) => {
+    console.log(range);
     if (range?.from && range?.to) {
       setFormData({
         ...formData,
@@ -74,15 +73,7 @@ export default function HostTripForm() {
       });
     }
   };
-  const handleDateChange = (range) => {
-    if (range?.from && range?.to) {
-      setFormData({
-        ...formData,
-        start_date: range.from,
-        end_date: range.to,
-      });
-    }
-  };
+  
 
   const handleTripTypeChange = (value) => {
     setFormData((prevFormData) => ({
@@ -91,12 +82,7 @@ export default function HostTripForm() {
     }));
   };
 
-  const handleTripTypeChange = (value) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      trip_type: value,
-    }));
-  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -125,7 +111,7 @@ export default function HostTripForm() {
       if (response.ok) {
         const data = await response.json();
         setStatus("Trip hosted successfully!");
-        router.push(`/trips/hostside-trips/${data.id}`);
+        router.push(`/host/trip/${data.id}`);
       } else {
         const error = await response.json();
         setStatus(`Error: ${error.message}`);

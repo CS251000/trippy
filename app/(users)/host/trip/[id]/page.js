@@ -12,7 +12,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 
 const TripHostDashboard = () => {
     const { id } = useParams();
-    const { user } = useUser();
+    const  {user}  = useUser();
     const [trip, setTrip] = useState(null);
     const [dates, setDates] = useState([]);
     const [dateIndex, setDateIndex] = useState(0);

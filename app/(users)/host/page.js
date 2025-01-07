@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HostTripCard from "@/components/trips/HostDashboardTrip";
 import Link from "next/link";
-import HostTripCard from "@/components/trips/HostDashboardTrip";
+
 
 const HostDashboard = () => {
     const { user, isLoaded, isSignedIn } = useUser();
@@ -144,7 +144,7 @@ const HostDashboard = () => {
                 <TabsContent value="upcoming">
                     <h2 className="mt-4 text-xl font-semibold">Upcoming Trips</h2>
                     {upcomingTrips.length > 0 ? (
-                        <ul className="mt-2 flex flex-row">
+                        <ul className="mt-2 flex flex-row flex-wrap">
                             {upcomingTrips.map((trip) => (
                                 <li key={trip.trips.id}>
                                     
