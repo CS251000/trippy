@@ -147,9 +147,9 @@ const HostDashboard = () => {
                         <ul className="mt-2 flex flex-row">
                             {upcomingTrips.map((trip) => (
                                 <li key={trip.trips.id}>
-                                    <Link href={`/host/trip/${trip.trips.id}`}>
+                                    
                                         <HostTripCard tripinfo={trip.trips} onDelete={onDelete} onUpdate={onUpdate}/>
-                                    </Link>
+                                    
                                 </li>
                             ))}
                         </ul>
