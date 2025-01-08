@@ -6,8 +6,6 @@ import Link from "next/link";
 import { tripTypesMap } from "@/lib/constants";
 import GoogleMapsAutocomplete from "@/components/extras/MapsAutocomplete";
 import { DatePickerWithRange } from "@/components/extras/DatePickerrange";
-import { TypeComboBox } from "@/components/extras/TypeDropdown";
-
 import {
   MultiSelector,
   MultiSelectorContent,
@@ -15,39 +13,76 @@ import {
   MultiSelectorItem,
   MultiSelectorList,
   MultiSelectorTrigger,
-}from "@/components/ui/multiselector";
+} from "@/components/ui/multiselector";
 
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const API_KEY = "AIzaSyBiAZFBelnH4gtlRZaqLo6QT62ZnqC7gJU";
+const genAI = new GoogleGenerativeAI(API_KEY);
 
 export default function HostTripForm() {
   const [formData, setFormData] = useState({
-    title:"",
+    title: "",
     destination: "",
     start_date: "",
     end_date: "",
     description: "",
-    maxParticipants:"",
+    maxParticipants: "",
     budget: "",
     trip_type: [],
     trip_image: null,
-    
   });
 
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("");
- 
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [enhancing, setEnhancing] = useState(false);
   const router = useRouter();
 
   const validate = () => {
     const errors = {};
+    if (!formData.title) errors.title = "Title is required.";
     if (!formData.destination) errors.destination = "Destination is required.";
     if (!formData.start_date) errors.start_date = "Start date is required.";
     if (!formData.end_date) errors.end_date = "End date is required.";
-    if (formData.trip_type.length==0) errors.trip_type = "Please select a trip type.";
-    if (formData.budget && isNaN(formData.budget)) errors.budget = "Budget must be a number.";
-    if (new Date(formData.start_date) > new Date(formData.end_date))
+    if (formData.trip_type.length === 0) errors.trip_type = "Please select a trip type.";
+    if (formData.budget && (isNaN(formData.budget) || formData.budget < 2000)) {
+      errors.budget = "Budget must be at least 2000.";
+    }
+    if (formData.maxParticipants && formData.maxParticipants <= 0) {
+      errors.maxParticipants = "Maximum participants must be greater than zero.";
+    }
+    if (new Date(formData.start_date) > new Date(formData.end_date)) {
       errors.end_date = "End date cannot be earlier than the start date.";
+    }
     return errors;
   };
+
+  const handleDescriptionEnhance = async () => {
+    setLoading(true);
+    try {
+      // console.log("function calling");
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const prompt = `Enhance the following trip description to make it more compelling for customers.Make sure to not exceed word limit 150 and only 
+                      give a paragraph no points or lists.
+                      :\n\n${formData.description}`;
+      const result = await model.generateContent(prompt);
+      const enhancedDescription = result.response.text();
+      console.log(enhancedDescription);
+      setFormData((prev) => ({
+        ...prev,
+        description: enhancedDescription,
+      }));
+  
+      setStatus("Description enhanced successfully!");
+    } catch (error) {
+      setStatus("Failed to enhance the description. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   const handleLocationSelect = (destination) => {
     setFormData((prevFormData) => ({
@@ -55,17 +90,18 @@ export default function HostTripForm() {
       destination,
     }));
   };
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (name === "description" && value.trim().length > 0) {
+      setEnhancing(true);
+    } else if (name === "description" && value.trim().length === 0) {
+      setEnhancing(false);
+    }
   };
 
-  // const handleFileChange = (e) => {
-  //   setFormData({ ...formData, trip_image: e.target.files[0] });
-  // };
   const handleDateChange = (range) => {
-    console.log(range);
     if (range?.from && range?.to) {
       setFormData({
         ...formData,
@@ -74,7 +110,6 @@ export default function HostTripForm() {
       });
     }
   };
-  
 
   const handleTripTypeChange = (value) => {
     setFormData((prevFormData) => ({
@@ -83,13 +118,13 @@ export default function HostTripForm() {
     }));
   };
 
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setModalMessage(Object.values(validationErrors).join("\n"));
+      setShowModal(true);
       return;
     }
 
@@ -97,7 +132,6 @@ export default function HostTripForm() {
       const formDataToSend = new FormData();
       for (const key in formData) {
         if (key === "trip_type") {
-          
           formDataToSend.append(key, JSON.stringify(formData[key]));
         } else {
           formDataToSend.append(key, formData[key]);
@@ -128,7 +162,7 @@ export default function HostTripForm() {
       <h1 className="text-2xl font-bold mb-4">Host a Trip</h1>
       {status && <p className="mb-4 text-center text-red-500">{status}</p>}
       <form onSubmit={handleSubmit}>
-      <div className="mb-4">
+        <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="title">
             Title
           </label>
@@ -136,34 +170,25 @@ export default function HostTripForm() {
             type="text"
             name="title"
             id="title"
-            className={`w-full border p-2 rounded `}
+            className={`w-full border p-2 rounded ${errors.title ? "border-red-500" : ""}`}
             value={formData.title}
             onChange={handleChange}
             required
           />
-          </div>
-          <GoogleMapsAutocomplete onLocationSelect={handleLocationSelect} />
-        
-          <div className="mb-4 mt-6">
+        </div>
+        <GoogleMapsAutocomplete onLocationSelect={handleLocationSelect} />
+
+        <div className="mb-4 mt-6">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="dateRange">
             Select Dates
           </label>
-          <DatePickerWithRange
-            className="w-full"
-            onSelect={handleDateChange}
-          />
-          {errors.start_date && (
-            <p className="text-red-500 text-sm">{errors.start_date}</p>
-          )}
-          {errors.end_date && (
-            <p className="text-red-500 text-sm">{errors.end_date}</p>
-          )}
+          <DatePickerWithRange className="w-full" onSelect={handleDateChange} />
+          {errors.start_date && <p className="text-red-500 text-sm">{errors.start_date}</p>}
+          {errors.end_date && <p className="text-red-500 text-sm">{errors.end_date}</p>}
         </div>
 
-
         <div className="mb-4 mt-6">
-
-        <MultiSelector
+          <MultiSelector
             values={formData.trip_type}
             onValuesChange={handleTripTypeChange}
             loop
@@ -173,7 +198,7 @@ export default function HostTripForm() {
               <MultiSelectorInput placeholder="Select your trip type" />
             </MultiSelectorTrigger>
             <MultiSelectorContent>
-            <MultiSelectorList>
+              <MultiSelectorList>
                 {tripTypesMap.map((type) => (
                   <MultiSelectorItem key={type.value} value={type.value}>
                     {type.label}
@@ -182,15 +207,8 @@ export default function HostTripForm() {
               </MultiSelectorList>
             </MultiSelectorContent>
           </MultiSelector>
-          
-          {/* <TypeComboBox
-          multiple
-            value={formData.trip_type}
-            onChange={(value) => setFormData({ ...formData, trip_type: value })}
-          /> */}
           {errors.trip_type && <p className="text-red-500 text-sm">{errors.trip_type}</p>}
         </div>
-
 
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="maxParticipants">
@@ -200,12 +218,13 @@ export default function HostTripForm() {
             type="number"
             name="maxParticipants"
             id="maxParticipants"
-            className={`w-full border p-2 rounded`}
+            className={`w-full border p-2 rounded ${errors.maxParticipants ? "border-red-500" : ""}`}
             value={formData.maxParticipants}
             onChange={handleChange}
           />
-          
+          {errors.maxParticipants && <p className="text-red-500 text-sm">{errors.maxParticipants}</p>}
         </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="budget">
             Budget
@@ -220,6 +239,7 @@ export default function HostTripForm() {
           />
           {errors.budget && <p className="text-red-500 text-sm">{errors.budget}</p>}
         </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="description">
             Description
@@ -232,19 +252,18 @@ export default function HostTripForm() {
             value={formData.description}
             onChange={handleChange}
           ></textarea>
+          {loading && <p className="text-blue-500 text-sm">Enhancing description...</p>}
+          {enhancing && !loading && (
+            <button
+              type="button"
+              className="mt-2 text-blue-500 underline"
+              onClick={handleDescriptionEnhance}
+            >
+              Enhance with AI
+            </button>
+          )}
         </div>
-        {/* <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="trip_image">
-            Upload Trip Image (Optional)
-          </label>
-          <input
-            type="file"
-            name="trip_image"
-            id="trip_image"
-            className="w-full border p-2 rounded"
-            onChange={handleFileChange}
-          />
-        </div> */}
+
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
@@ -252,6 +271,21 @@ export default function HostTripForm() {
           Host Trip
         </button>
       </form>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+            <h2 className="text-lg font-bold mb-4">Validation Errors</h2>
+            <p className="mb-4">{modalMessage}</p>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
