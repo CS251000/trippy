@@ -12,10 +12,10 @@ export const HostNavbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   // Debugging
-  useEffect(() => {
-    console.log("isSignedIn:", isSignedIn);
-    console.log("user:", user);
-  }, [isSignedIn, user]);
+  // useEffect(() => {
+  //   console.log("isSignedIn:", isSignedIn);
+  //   console.log("user:", user);
+  // }, [isSignedIn, user]);
 
   return (
     <div className="sticky top-0 z-50 flex justify-between items-center px-8 py-4 bg-black text-white font-mono shadow-lg">

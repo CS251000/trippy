@@ -61,7 +61,7 @@ const ItineraryItem = ({ item, date, setItinerary }) => {
                 </div>
 
                 <div className="text-right text-xs text-gray-600 mx-4 mt-2">
-                    <i>$ {item.cost}</i>
+                    <i>₹{item.cost}</i>
                 </div>
             </div>
         </div>

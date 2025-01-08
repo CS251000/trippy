@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HostTripCard from "@/components/trips/HostDashboardTrip";
 import Link from "next/link";
+import Loading from "@/app/loading";
 
 
 const HostDashboard = () => {
@@ -85,7 +86,7 @@ const HostDashboard = () => {
     }, [isSignedIn, user, isLoaded]);
 
     if (!isLoaded) {
-        return <p>Loading...</p>;
+        return <Loading/>;
     }
 
   const onDelete = async (id) => {
@@ -122,9 +123,7 @@ const HostDashboard = () => {
   
   
   
-  const onUpdate= (id)=>{
-    console.log(id);
-  }
+
 
     const userName = user?.firstName || user?.username || "Guest";
 
@@ -148,7 +147,7 @@ const HostDashboard = () => {
                             {upcomingTrips.map((trip) => (
                                 <li key={trip.trips.id}>
                                     
-                                        <HostTripCard tripinfo={trip.trips} onDelete={onDelete} onUpdate={onUpdate}/>
+                                        <HostTripCard tripinfo={trip.trips} onDelete={onDelete} />
                                     
                                 </li>
                             ))}
@@ -166,7 +165,7 @@ const HostDashboard = () => {
                             {ongoingTrips.map((trip) => (
                                 <li key={trip.trips.id}>
                                     <Link href={`/host/trip/${trip.trips.tripId}`}>
-                                        <HostTripCard tripinfo={trip.trips} onDelete={onDelete} onUpdate={onUpdate}/>
+                                        <HostTripCard tripinfo={trip.trips} onDelete={onDelete} />
                                     </Link>
                                 </li>
                             ))}
@@ -183,7 +182,7 @@ const HostDashboard = () => {
                         <ul className="mt-2 flex flex-row">
                             {completedTrips.map((trip) => (
                                 <li key={trip.trips.id}>
-                                    <HostTripCard tripinfo={trip.trips} onDelete={onDelete} onUpdate={onUpdate}/>
+                                    <HostTripCard tripinfo={trip.trips} onDelete={onDelete}/>
                                 </li>
                             ))}
                         </ul>

@@ -14,15 +14,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePickerWithRange({ className, onSelect }) {
-  const [date, setDate] = React.useState({
+export function DatePickerWithRange({ className, onSelect,defaultValue })
+{
+
+  const [date, setDate] = React.useState(defaultValue ||{
     from: new Date(),
     to: addDays(new Date(), 5),
   });
 
   const handleDateSelect = (range) => {
     setDate(range);
-    onSelect(range); // Trigger onSelect callback passed as prop
+    onSelect(range); 
   };
 
   return (

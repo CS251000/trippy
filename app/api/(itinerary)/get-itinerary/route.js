@@ -24,6 +24,8 @@ export async function POST(req) {
             .from(itineraryItems)
             .where(eq(itineraryItems.tripId, tripId))
             .orderBy(itineraryItems.startTime, "asc");
+
+        console.log("itinerary",itinerary);
         return NextResponse.json({ itinerary, success: true }, { status: 200 });
     } catch (error) {
         console.error("Error fetching itineray:", error);

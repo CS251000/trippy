@@ -1,134 +1,125 @@
 "use client";
+
 import ItineraryItem from "@/components/itinerary/ItineraryItem";
-import Link from "next/link";
+import AddItineraryItemForm from "@/components/itinerary/AddItinerayItemForm";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import AddItineraryItemForm from "@/components/itinerary/AddItinerayItemForm";
 import { useUser } from "@clerk/nextjs";
 import SimpleBar from "simplebar-react";
-import 'simplebar-react/dist/simplebar.min.css';
+import "simplebar-react/dist/simplebar.min.css";
 import { formatTimestamp } from "@/app/utils/util";
 import { FaCalendarAlt } from "react-icons/fa";
+import TripDetailsHostCard from "@/components/trips/TripDetailsHost";
+import LoadingDetails from "./loading";
 
 const TripHostDashboard = () => {
-    const { id } = useParams();
-    const  {user}  = useUser();
-    console.log(user);
-    const [trip, setTrip] = useState(null);
-    const [dates, setDates] = useState([]);
-    const [dateIndex, setDateIndex] = useState(0);
-    const [itinerary, setItinerary] = useState({});
+  const { id } = useParams();
+  const { user, isLoaded, isSignedIn } = useUser();
 
-    function getDates(startDate, endDate) {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const dates = [];
+  const [trip, setTrip] = useState(null);
+  const [dates, setDates] = useState([]);
+  const [dateIndex, setDateIndex] = useState(0);
+  const [itinerary, setItinerary] = useState({});
 
-        while (start <= end) {
-            dates.push(new Date(start).toISOString().split("T")[0]);
-            start.setDate(start.getDate() + 1);
-        }
-        return dates;
+  function getDates(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const dates = [];
+
+    while (start <= end) {
+      dates.push(new Date(start).toISOString().split("T")[0]);
+      start.setDate(start.getDate() + 1);
+    }
+    return dates;
+  }
+
+  useEffect(() => {
+
+    if (!isLoaded || !isSignedIn) return;
+
+    async function fetchTrip() {
+      try {
+        const response = await fetch(`/api/get-trip-info?id=${id}`);
+        if (!response.ok) throw new Error("Failed to fetch trip details.");
+
+        const data = await response.json();
+        setTrip(data.trip);
+
+        const datesBetween = getDates(data.trip.startDate, data.trip.endDate);
+        setDates(datesBetween);
+      } catch (error) {
+        console.error("Error fetching trip details:", error);
+      }
     }
 
-    useEffect(() => {
-        async function fetchTrip() {
-            try {
-                const response = await fetch(`/api/get-trip-info?id=${id}`);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch trip details.");
-                }
-                const data = await response.json();
-                setTrip(data.trip);
-                const datesBetween = getDates(data.trip.startDate, data.trip.endDate);
-                setDates(datesBetween);
-            } catch (err) {
-                console.error(err);
-            }
-        }
+    // Fetch itinerary data
+    async function fetchItinerary() {
+      try {
+        const body = {
+          userId: user.id,
+          tripId: id,
+        };
 
-        async function fetchItinerary() {
-            console.log("userid",user.id);
-            const body = {
-                userId: user.id,
-                tripId: id,
+        const response = await fetch("/api/get-itinerary", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch itinerary.");
+
+        const data = await response.json();
+
+        if (data.success) {
+          const itineraryItems = data.itinerary;
+          const newItinerary = {}; // Build the state update in one go
+
+          itineraryItems.forEach((item) => {
+            const [startDate, startTime] = formatTimestamp(item.startTime);
+            const [endDate, endTime] = formatTimestamp(item.endTime);
+
+            if (!newItinerary[startDate]) {
+              newItinerary[startDate] = [];
             }
-            const response = await fetch("/api/get-itinerary", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
+
+            newItinerary[startDate].push({
+              ...item,
+              startTime,
+              endTime,
             });
-            if (!response.ok) {
-                throw new Error("Failed to fetch itinerary.");
-            }
-            const data = await response.json();
-            if (data.success) {
-                const itineraryItems = data.itinerary;
-                for (const item of itineraryItems) {
-                    const [startDate, startTime] = formatTimestamp(item.startTime);
-                    const [endDate, endTime] = formatTimestamp(item.endTime);
-                    setItinerary((itinerary) => ({
-                        ...itinerary,
-                        [startDate]: [
-                            ...(itinerary[startDate] || []),
-                            {
-                                ...item,
-                                startTime,
-                                endTime,
-                            },
-                        ],
-                    }));
-                }
-            }
+          });
+
+          setItinerary(newItinerary);
         }
-        fetchTrip();
-        fetchItinerary();
-    }, [id, user])
+      } catch (error) {
+        console.error("Error fetching itinerary:", error);
+      }
+    }
 
+    fetchTrip();
+    fetchItinerary();
+  }, [id, user, isLoaded, isSignedIn]);
+
+  if (!isLoaded || !trip) {
+    return <LoadingDetails />;
+  }
+
+  if (!isSignedIn) {
     return (
-        <div className="p-4 itinerary">
-
-            <h2 className="itinerary-title flex justify-center text-gray-600"><span className="mx-2 mt-1"><FaCalendarAlt /></span> Itinerary</h2>
-            <div className="itinerary-container border rounded border-gray-500">
-                <div className="mb-4 flex justify-between">
-                    <select
-                        id="type"
-                        name="type"
-                        className="text-gray-900 text-sm border rounded-lg bg-gray-50"
-                        value={dateIndex}
-                        onChange={(e) => { setDateIndex(Number(e.target.value)) }}
-                        required
-                    >
-                        {dates.map(
-                            (date, index) => (
-                                <option
-                                    key={index}
-                                    value={index}
-                                >
-                                    Day {index + 1} ({date})
-                                </option>
-                            )
-                        )}
-                    </select>
-                    <AddItineraryItemForm tripId={id} date={dates[dateIndex]} setItinerary={setItinerary} />
-                </div>
-                <SimpleBar style={{ maxHeight: "440px" }}>
-                    <div className="itinerary-list">
-                        {(itinerary[dates[dateIndex]] && itinerary[dates[dateIndex]].length > 0) ? (
-                            itinerary[dates[dateIndex]].map((item, index) => (
-                                <ItineraryItem key={index} item={item} date={dates[dateIndex]} setItinerary={setItinerary} />
-                            ))
-                        ) : (
-                            <div className="no-itinerary-message">
-                                No itinerary available for this date.
-                            </div>
-                        )}
-                    </div>
-                </SimpleBar>
-            </div>
-        </div>
+      <div className="text-center text-red-500">
+        Please sign in to access this page.
+      </div>
     );
-}
+  }
+
+  return (
+    <div className="p-4 itinerary">
+      {<TripDetailsHostCard trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary} setDateIndex={setDateIndex}/>}
+
+    </div>
+  );
+};
+
 export default TripHostDashboard;

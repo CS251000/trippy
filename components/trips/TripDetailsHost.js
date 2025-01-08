@@ -22,13 +22,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
-import TripDetailsTabs from "./TripDetailsTabs";
 import Link from "next/link";
+import { useState } from "react";
+import TripDetailsHostTabs from "./TripDetailsHostTabs";
 
 
 
-export default function TripDetailsCard({ trip }) {
+export default function TripDetailsHostCard({ trip,itinerary,dateIndex,dates,setItinerary ,setDateIndex}) {
   const {user}=useUser();
+
 
   const formatDestination = (destination) => {
     if (!destination) return "N/A";
@@ -172,7 +174,8 @@ export default function TripDetailsCard({ trip }) {
         <div className="mt-4 flex flex-row justify-between">
           <div className="flex flex-col">
           <p className="text-lg">{trip.description}</p>
-          <TripDetailsTabs/>
+          <TripDetailsHostTabs trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary}
+          setDateIndex={setDateIndex}/>
          
           </div>
           <div>

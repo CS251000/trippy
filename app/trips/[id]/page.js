@@ -2,9 +2,8 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import Loading from "@/app/loading";
-import Link from "next/link";
 import TripDetailsCard from "@/components/trips/TripDetailsCard";
+import LoadingDetails from "./loading";
 
 const TripDetailsTraveller = () => {
   const { id } = useParams();
@@ -34,7 +33,7 @@ const TripDetailsTraveller = () => {
 
   // console.log("images",trip.images);
 
-  if (loading) return <Loading />;
+  if (loading) return <LoadingDetails />;
   if (error) return <div>Error: {error}</div>;
 
   return (
