@@ -1,15 +1,16 @@
-import { trips } from "@/db/schema"; 
+import { trips } from "@/db/schema";
 import { usersToTrips } from "@/db/schema";
 import { db } from "@/db";
 import { auth } from "@clerk/nextjs/server";
+import { and, eq } from "drizzle-orm";
 
 export async function POST(req) {
   try {
-    const {userId}= await auth();
+    const { userId } = await auth();
 
-    const formData = await req.formData(); 
+    const formData = await req.formData();
     // console.log(formData);
-    const title= formData.get("title")
+    const title = formData.get("title");
     const destination = formData.get("destination");
     const start_date = formData.get("start_date");
     const end_date = formData.get("end_date");
@@ -17,11 +18,7 @@ export async function POST(req) {
     const maxParticipants = formData.get("maxParticipants");
     const budget = formData.get("budget");
     let tripType = formData.get("trip_type");
-    const tripImage = formData.get("trip_image");
 
-
-
-    // Validate required fields
     if (!destination || !start_date || !end_date) {
       return new Response(
         JSON.stringify({ message: "Missing required fields." }),
@@ -30,46 +27,66 @@ export async function POST(req) {
     }
 
     if (typeof tripType === "string") {
-      tripType = JSON.parse(tripType); 
+      tripType = JSON.parse(tripType);
     }
 
     const startDateParsed = new Date(start_date);
     const endDateParsed = new Date(end_date);
-    
+
+    const pastTrips = await db
+      .select({
+        rating: trips.rating,
+      })
+      .from(trips)
+      .innerJoin(usersToTrips, eq(trips.id, usersToTrips.tripId))
+      .where(
+        and(eq(usersToTrips.userId, userId), eq(trips.status, "Completed"))
+      );
+
+    const totalRating = pastTrips.reduce(
+      (sum, trip) => sum + (trip.rating || 0),
+      0
+    );
+    const averageRating =
+      pastTrips.length > 0 ? totalRating / pastTrips.length : null;
+
     const result = await db
       .insert(trips)
       .values({
-        title:title,
-        destination:destination,
-        startDate:startDateParsed,
-        endDate:endDateParsed,
-        description:description,
+        title: title,
+        destination: destination,
+        startDate: startDateParsed,
+        endDate: endDateParsed,
+        description: description,
         participantsUpperLimit: maxParticipants,
-        budget:budget,
-        type:tripType,
-        status:"Scheduled",
-
+        budget: budget,
+        type: tripType,
+        status: "Scheduled",
+        rating: parseInt(averageRating),
       })
-      .returning({ id: trips.id }); 
-      const tripId = result[0].id;
-      await db.insert(usersToTrips).values({
-        userId,
-        tripId,
-        role:"host",
-        status:"Scheduled",
-      });
-      
+      .returning({ id: trips.id });
+    const tripId = result[0].id;
+    await db.insert(usersToTrips).values({
+      userId,
+      tripId,
+      role: "host",
+      status: "Scheduled",
+    });
+
     return new Response(
       JSON.stringify({
         message: "Trip details saved successfully!",
-        id: tripId, 
+        id: tripId,
       }),
       { status: 200 }
     );
   } catch (error) {
     console.error("Error inserting trip details:", error);
     return new Response(
-      JSON.stringify({ message: "Failed to save trip details.", error: error.message }),
+      JSON.stringify({
+        message: "Failed to save trip details.",
+        error: error.message,
+      }),
       { status: 500 }
     );
   }

@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { itineraryItems, trips, usersToTrips } from "@/db/schema";
+import { getTripImage } from "@/lib/destImage";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -14,6 +15,7 @@ export async function POST(req) {
                 { status: 400 }
             );
         }
+        const imageurl= await getTripImage(location);
 
         if (new Date(startTime) > new Date(endTime)) {
             return NextResponse.json(
@@ -40,6 +42,7 @@ export async function POST(req) {
             type,
             cost: cost || null,
             location: location || null,
+            image:imageurl,
             startTime: new Date(startTime),
             endTime: new Date(endTime),
             status: "Upcoming",

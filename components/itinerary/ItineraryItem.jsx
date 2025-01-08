@@ -19,10 +19,10 @@ const ItineraryItem = ({ item, date, setItinerary }) => {
         <div className={`itinerary-item ${item.type.toLowerCase()}`}>
             <div>
                 <Image
-                    src={"/images/login.jpg"}
+                    src={item.image}
                     width={600}
-                    height={150}
-                    className="itinerary-image"
+                    height={50}
+                    className="itinerary-image h-56"
                     alt="Itinerary Image"
                 />
 

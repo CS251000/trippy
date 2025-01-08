@@ -14,9 +14,9 @@ export default function TripDetailsHostTabs({ trip,dateIndex,dates,itinerary ,se
           <TabsTrigger value="weather">Weather</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="itinerary">
+        <TabsContent value="itinerary" >
 
-          <div className="itinerary-container border rounded border-gray-500">
+          <div className="itinerary-container border rounded border-gray-500 w-full">
             <div className="mb-4 flex justify-between">
               <select
                 id="type"

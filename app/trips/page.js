@@ -32,7 +32,11 @@ export default function TripsPage() {
           throw new Error("Failed to fetch trips");
         }
         const data = await res.json();
-        setTrips(data.tripsWithImages);
+        const tripst=data.tripsWithImages;
+        const filteredTrips= tripst.filter((trip)=>
+          trip.status==="Scheduled"
+        );
+        setTrips(filteredTrips);
       } catch (err) {
         console.error(err);
         setError(err.message);

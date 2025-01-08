@@ -105,6 +105,7 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
                         startTime: "",
                         endTime: "",
                         description: "",
+                        
                     });
                     propagateAddItem({
                         ...result.item[0],
