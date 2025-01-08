@@ -15,9 +15,13 @@ import {
   MultiSelectorTrigger,
 } from "@/components/ui/multiselector";
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const API_KEY = "AIzaSyBiAZFBelnH4gtlRZaqLo6QT62ZnqC7gJU";
-const genAI = new GoogleGenerativeAI(API_KEY);
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+import dotenv from "dotenv"
+dotenv.config({path:'.env.local'});
+
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEN_AI_API_KEY);
+
 
 export default function HostTripForm() {
   const [formData, setFormData] = useState({
@@ -64,7 +68,7 @@ export default function HostTripForm() {
     try {
       // console.log("function calling");
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const prompt = `Enhance the following trip description to make it more compelling for customers.Make sure to not exceed word limit 150 and only 
+      const prompt = `Enhance the following trip description to make it more compelling for customers.Make sure to not exceed word limit 300 and only 
                       give a paragraph no points or lists.
                       :\n\n${formData.description}`;
       const result = await model.generateContent(prompt);

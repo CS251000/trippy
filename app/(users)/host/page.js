@@ -194,4 +194,4 @@ const HostDashboard = () => {
     );
 };
 
-export default Dashboard;
+export default HostDashboard;
