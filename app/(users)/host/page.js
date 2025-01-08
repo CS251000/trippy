@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HostTripCard from "@/components/trips/HostDashboardTrip";
 import Link from "next/link";
 import Loading from "@/app/loading";
+import { useUser } from "@clerk/nextjs";
 
 
 const HostDashboard = () => {

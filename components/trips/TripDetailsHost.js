@@ -171,15 +171,15 @@ export default function TripDetailsHostCard({ trip,itinerary,dateIndex,dates,set
         </div>
 
         {/* Trip Details */}
-        <div className="mt-4 flex flex-row justify-between">
-          <div className="flex flex-col">
+        <div className="mt-4 flex flex-row justify-between gap-4">
+          <div className="flex flex-col me-28">
           <p className="text-lg">{trip.description}</p>
           <TripDetailsHostTabs trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary}
           setDateIndex={setDateIndex}/>
          
           </div>
           <div>
-          <Card className=" sticky top-20 bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4 h-48">
+          <Card className=" sticky top-20 bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4 h-48 ">
             <CardHeader>
               <CardTitle className="text-4xl">
                 {trip.budget} <span className="text-xl text-gray-500">INR</span>

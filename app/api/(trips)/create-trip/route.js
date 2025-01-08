@@ -48,7 +48,7 @@ export async function POST(req) {
       0
     );
     const averageRating =
-      pastTrips.length > 0 ? totalRating / pastTrips.length : null;
+      pastTrips.length > 0 ? totalRating / pastTrips.length : 0;
 
     const result = await db
       .insert(trips)
