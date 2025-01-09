@@ -52,7 +52,7 @@ export default function TripDetailsHostCard({ trip,itinerary,dateIndex,dates,set
 
 
   return (
-    <div className="w-screen mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="p-5">
         <div className="flex flex-row justify-between items-center">
           <h1 className="text-4xl font-semibold text-gray-900 dark:text-white ml-2">
@@ -179,7 +179,7 @@ export default function TripDetailsHostCard({ trip,itinerary,dateIndex,dates,set
          
           </div>
           <div>
-          <Card className=" sticky top-20 bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4 h-48 ">
+          <Card className=" sticky top-20 bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4 h-auto ">
             <CardHeader>
               <CardTitle className="text-4xl">
                 {trip.budget} <span className="text-xl text-gray-500">INR</span>

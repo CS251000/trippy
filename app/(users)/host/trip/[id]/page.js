@@ -106,16 +106,10 @@ const TripHostDashboard = () => {
     return <LoadingDetails />;
   }
 
-  if (!isSignedIn) {
-    return (
-      <div className="text-center text-red-500">
-        Please sign in to access this page.
-      </div>
-    );
-  }
+  
 
   return (
-    <div className="p-4 itinerary">
+    <div className=" itinerary">
       {<TripDetailsHostCard trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary} setDateIndex={setDateIndex}/>}
 
     </div>
