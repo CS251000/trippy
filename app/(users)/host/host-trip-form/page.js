@@ -19,8 +19,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
 
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEN_AI_API_KEY);
 
@@ -53,14 +51,10 @@ export default function HostTripForm() {
     if (!formData.end_date) errors.end_date = "End date is required.";
     if (formData.trip_type.length === 0)
       errors.trip_type = "Please select a trip type.";
-    if (formData.trip_type.length === 0)
-      errors.trip_type = "Please select a trip type.";
     if (formData.budget && (isNaN(formData.budget) || formData.budget < 2000)) {
       errors.budget = "Budget must be at least 2000.";
     }
     if (formData.maxParticipants && formData.maxParticipants <= 0) {
-      errors.maxParticipants =
-        "Maximum participants must be greater than zero.";
       errors.maxParticipants =
         "Maximum participants must be greater than zero.";
     }
@@ -192,24 +186,9 @@ export default function HostTripForm() {
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
-      <Link href="/" className="text-blue-600 underline mb-4 block">
+      {/* <Link href="/" className="text-blue-600 underline mb-4 block">
         HOME
-      </Link>
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">Host a Trip</h1>
-      {status && (
-        <p className="mb-4 text-center text-red-500 font-semibold">{status}</p>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="title"
-          >
-            Title<span className="text-red-500">*</span>
-    <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
-      <Link href="/" className="text-blue-600 underline mb-4 block">
-        HOME
-      </Link>
+      </Link> */}
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Host a Trip</h1>
       {status && (
         <p className="mb-4 text-center text-red-500 font-semibold">{status}</p>
@@ -229,9 +208,6 @@ export default function HostTripForm() {
             className={`w-full border p-2 rounded ${
               errors.title ? "border-red-500" : "border-gray-300"
             }`}
-            className={`w-full border p-2 rounded ${
-              errors.title ? "border-red-500" : "border-gray-300"
-            }`}
             value={formData.title}
             onChange={handleChange}
             required
@@ -239,12 +215,6 @@ export default function HostTripForm() {
         </div>
         <GoogleMapsAutocomplete onLocationSelect={handleLocationSelect} />
 
-        <div>
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="dateRange"
-          >
-            Select Dates<span className="text-red-500">*</span>
         <div>
           <label
             className="block text-gray-700 font-medium mb-2"
@@ -259,18 +229,8 @@ export default function HostTripForm() {
           {errors.end_date && (
             <p className="text-red-500 text-sm">{errors.end_date}</p>
           )}
-          {errors.start_date && (
-            <p className="text-red-500 text-sm">{errors.start_date}</p>
-          )}
-          {errors.end_date && (
-            <p className="text-red-500 text-sm">{errors.end_date}</p>
-          )}
         </div>
 
-        <div>
-          <label className="block text-gray-700 font-medium mb-2">
-            Trip Type<span className="text-red-500">*</span>
-          </label>
         <div>
           <label className="block text-gray-700 font-medium mb-2">
             Trip Type<span className="text-red-500">*</span>
@@ -279,7 +239,6 @@ export default function HostTripForm() {
             values={formData.trip_type}
             onValuesChange={handleTripTypeChange}
             loop
-            className="w-full"
             className="w-full"
           >
             <MultiSelectorTrigger>
@@ -298,17 +257,8 @@ export default function HostTripForm() {
           {errors.trip_type && (
             <p className="text-red-500 text-sm">{errors.trip_type}</p>
           )}
-          {errors.trip_type && (
-            <p className="text-red-500 text-sm">{errors.trip_type}</p>
-          )}
         </div>
 
-        <div>
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="maxParticipants"
-          >
-            Maximum Participants<span className="text-red-500">*</span>
         <div>
           <label
             className="block text-gray-700 font-medium mb-2"
@@ -323,26 +273,14 @@ export default function HostTripForm() {
             className={`w-full border p-2 rounded ${
               errors.maxParticipants ? "border-red-500" : "border-gray-300"
             }`}
-            className={`w-full border p-2 rounded ${
-              errors.maxParticipants ? "border-red-500" : "border-gray-300"
-            }`}
             value={formData.maxParticipants}
             onChange={handleChange}
           />
           {errors.maxParticipants && (
             <p className="text-red-500 text-sm">{errors.maxParticipants}</p>
           )}
-          {errors.maxParticipants && (
-            <p className="text-red-500 text-sm">{errors.maxParticipants}</p>
-          )}
         </div>
 
-        <div>
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="budget"
-          >
-            Budget<span className="text-red-500">*</span>
         <div>
           <label
             className="block text-gray-700 font-medium mb-2"
@@ -357,25 +295,14 @@ export default function HostTripForm() {
             className={`w-full border p-2 rounded ${
               errors.budget ? "border-red-500" : "border-gray-300"
             }`}
-            className={`w-full border p-2 rounded ${
-              errors.budget ? "border-red-500" : "border-gray-300"
-            }`}
             value={formData.budget}
             onChange={handleChange}
           />
           {errors.budget && (
             <p className="text-red-500 text-sm">{errors.budget}</p>
           )}
-          {errors.budget && (
-            <p className="text-red-500 text-sm">{errors.budget}</p>
-          )}
         </div>
 
-        <div>
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="description"
-          >
         <div>
           <label
             className="block text-gray-700 font-medium mb-2"
@@ -387,8 +314,6 @@ export default function HostTripForm() {
             name="description"
             id="description"
             rows="4"
-            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm resize-none"
-            placeholder="Provide a brief description of your trip"
             className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm resize-none"
             placeholder="Provide a brief description of your trip"
             value={formData.description}
@@ -426,7 +351,6 @@ export default function HostTripForm() {
           {!loading && !enhancing && (
             <button
               type="button"
-              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition duration-300 shadow-md"
               className="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition duration-300 shadow-md"
               onClick={handleDescriptionEnhance}
             >
