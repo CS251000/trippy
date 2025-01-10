@@ -59,6 +59,7 @@ export const users = pgTable("users", {
     emergencyContact: varchar("emergency_contact", { length: 15 }),
     profileImage: text("profile_image"),
     age: integer("age").notNull(),
+    adharCardNumber: varchar("adhar_card_number"),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -108,7 +109,7 @@ export const usersToTrips = pgTable(
 
     },
     (t) => ({
-        pk: primaryKey({ columns: [t.userId, t.tripId] }),
+        pk: primaryKey({ columns: [t.userId, t.tripId,t.role] }),
     })
 );
 

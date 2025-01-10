@@ -197,6 +197,20 @@
       "when": 1736184993438,
       "tag": "0023_cute_whirlwind",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1736501772512,
+      "tag": "0024_tranquil_wallop",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1736503918605,
+      "tag": "0025_slim_marrow",
+      "breakpoints": true
     }
   ]
 }
