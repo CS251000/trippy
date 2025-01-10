@@ -12,7 +12,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 
 const TripHostDashboard = () => {
     const { id } = useParams();
-    const  {user}  = useUser();
+    const { user } = useUser();
     console.log(user);
     const [trip, setTrip] = useState(null);
     const [dates, setDates] = useState([]);
@@ -48,7 +48,7 @@ const TripHostDashboard = () => {
         }
 
         async function fetchItinerary() {
-            console.log("userid",user.id);
+            console.log("userid", user.id);
             const body = {
                 userId: user.id,
                 tripId: id,
@@ -69,17 +69,22 @@ const TripHostDashboard = () => {
                 for (const item of itineraryItems) {
                     const [startDate, startTime] = formatTimestamp(item.startTime);
                     const [endDate, endTime] = formatTimestamp(item.endTime);
-                    setItinerary((itinerary) => ({
-                        ...itinerary,
-                        [startDate]: [
-                            ...(itinerary[startDate] || []),
-                            {
-                                ...item,
-                                startTime,
-                                endTime,
-                            },
-                        ],
-                    }));
+                    setItinerary((itinerary) => {
+                        const currentMap = itinerary[startDate] || new Map();
+
+                        const updatedMap = new Map(currentMap);
+                        updatedMap.set(item.id, {
+                            ...item,
+                            startTime,
+                            endTime,
+                        });
+
+                        return {
+                            ...itinerary,
+                            [startDate]: updatedMap,
+                        };
+                    });
+
                 }
             }
         }
@@ -116,9 +121,14 @@ const TripHostDashboard = () => {
                 </div>
                 <SimpleBar style={{ maxHeight: "440px" }}>
                     <div className="itinerary-list">
-                        {(itinerary[dates[dateIndex]] && itinerary[dates[dateIndex]].length > 0) ? (
-                            itinerary[dates[dateIndex]].map((item, index) => (
-                                <ItineraryItem key={index} item={item} date={dates[dateIndex]} setItinerary={setItinerary} />
+                        {(itinerary[dates[dateIndex]] && itinerary[dates[dateIndex]] instanceof Map && itinerary[dates[dateIndex]].size > 0) ? (
+                            Array.from(itinerary[dates[dateIndex]].values()).map((item, index) => (
+                                <ItineraryItem
+                                    key={item.id}
+                                    item={item}
+                                    date={dates[dateIndex]}
+                                    setItinerary={setItinerary}
+                                />
                             ))
                         ) : (
                             <div className="no-itinerary-message">

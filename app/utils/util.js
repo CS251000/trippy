@@ -46,16 +46,19 @@ export function convertTo24HourFormatString(time12) {
     return `${paddedHours}:${paddedMinutes}`;
 }
 
-export function sortBy12HourTime(arr) {
-    return arr.sort((a, b) => {
-        const timeA = convertTo24HourFormat(a.startTime);
-        const timeB = convertTo24HourFormat(b.startTime);
+export function sortBy12HourTime(map) {
+    // Convert Map entries to an array, sort them, and reconstruct the Map
+    return new Map(
+        Array.from(map.entries()).sort(([keyA, itemA], [keyB, itemB]) => {
+            const timeA = convertTo24HourFormat(itemA.startTime);
+            const timeB = convertTo24HourFormat(itemB.startTime);
 
-        if (timeA.hours === timeB.hours) {
-            return timeA.minutes - timeB.minutes;
-        }
-        return timeA.hours - timeB.hours;
-    });
+            if (timeA.hours === timeB.hours) {
+                return timeA.minutes - timeB.minutes;
+            }
+            return timeA.hours - timeB.hours;
+        })
+    );
 }
 
 export function formatTimestamp(timestamp) {

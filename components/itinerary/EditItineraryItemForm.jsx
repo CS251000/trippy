@@ -43,25 +43,24 @@ const EditItineraryItemForm = ({ date, item, setItinerary }) => {
     };
 
     function propagateAddItem(item) {
-        setItinerary((itinerary) => ({
-            ...itinerary,
-            [date]: itinerary[date].filter((i) => i.id !== item.id),
-        }));
-        setItinerary((itinerary) => ({
-            ...itinerary,
-            [date]: [
-                ...(itinerary[date] || []),
-                {
-                    ...item,
-                    startTime: convertTo12HourFormat(item.startTime),
-                    endTime: convertTo12HourFormat(item.endTime),
-                },
-            ],
-        }));
-        setItinerary((itinerary) => ({
-            ...itinerary,
-            [date]: sortBy12HourTime(itinerary[date]),
-        }));
+        setItinerary((itinerary) => {
+            const currentMap = itinerary[date] || new Map();
+            const updatedMap = new Map(currentMap);
+            updatedMap.delete(item.id);
+
+            updatedMap.set(item.id, {
+                ...item,
+                startTime: convertTo12HourFormat(item.startTime),
+                endTime: convertTo12HourFormat(item.endTime),
+            });
+
+            const sortedMap = sortBy12HourTime(updatedMap);
+
+            return {
+                ...itinerary,
+                [date]: sortedMap,
+            };
+        });
     }
 
     const handleSubmit = async (e) => {
