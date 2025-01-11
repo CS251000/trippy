@@ -89,7 +89,7 @@ export default function TravellerTripForm() {
         const res = await response.json();
         if (response.ok) {
           setStatus("Form submitted successfully!");
-          router.push(`/traveller/trip?tripId=${tripId}`);
+          router.push(`/traveller/trip/${tripId}`);
         } else {
           setStatus(`Error: ${res.message}`);
         }

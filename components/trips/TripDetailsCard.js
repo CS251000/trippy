@@ -27,7 +27,7 @@ import Link from "next/link";
 
 
 
-export default function TripDetailsCard({ trip }) {
+export default function TripDetailsCard({ trip,itinerary,dateIndex,dates,setItinerary ,setDateIndex }) {
   const {user}=useUser();
 
   const formatDestination = (destination) => {
@@ -172,7 +172,8 @@ export default function TripDetailsCard({ trip }) {
         <div className="mt-4 flex flex-row justify-between">
           <div className="flex flex-col">
           <p className="text-lg">{trip.description}</p>
-          <TripDetailsTabs/>
+          <TripDetailsTabs trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary}
+          setDateIndex={setDateIndex}/>
          
           </div>
           <div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Star, UserPlus } from "lucide-react";
+import { Star, Users } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
 
@@ -28,7 +28,7 @@ import TripDetailsHostTabs from "./TripDetailsHostTabs";
 
 
 
-export default function TripDetailsHostCard({ trip,itinerary,dateIndex,dates,setItinerary ,setDateIndex}) {
+export default function TripDetailsHostCard({ trip,itinerary,dateIndex,dates,setItinerary ,setDateIndex,members}) {
   const {user}=useUser();
 
 
@@ -169,54 +169,34 @@ export default function TripDetailsHostCard({ trip,itinerary,dateIndex,dates,set
             </CarouselNext>
           </Carousel>
         </div>
+        
 
         {/* Trip Details */}
         <div className="mt-4 flex flex-row justify-between gap-4">
           <div className="flex flex-col me-28">
           <p className="text-lg">{trip.description}</p>
           <TripDetailsHostTabs trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary}
-          setDateIndex={setDateIndex}/>
+          setDateIndex={setDateIndex} members={members}/>
          
           </div>
-          <div>
+          {/* <div>
           <Card className=" sticky top-20 bg-slate-100 w-auto text-center rounded-xl border-gray-700 border-4 mr-7 mt-4 h-auto ">
             <CardHeader>
               <CardTitle className="text-4xl">
                 {trip.budget} <span className="text-xl text-gray-500">INR</span>
               </CardTitle>
-              <CardDescription className="flex items-center space-x-2 text-black text-lg">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                  />
-                </svg>
-                <span>
-                  Hurry Up,{" "}
-                  <span className="text-red-400">Limited spots Available</span>
-                </span>
-              </CardDescription>
+
             </CardHeader>
             <CardContent>
-              <Link href={`/traveller/traveller-trip-form?tripId=${trip.id}`}>
-              
               <Button>
-                <UserPlus />
-                Join Trip Now
+                <Users />
+                Manage your Travellers
               </Button>
-              </Link>
+              
               
             </CardContent>
           </Card>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

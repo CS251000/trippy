@@ -85,7 +85,7 @@ const HostDashboard = () => {
         }
     }, [isSignedIn, user, isLoaded]);
 
-    if (!isLoaded) {
+    if (!isLoaded || !upcomingTrips || !ongoingTrips || !completedTrips) {
         return <Loading/>;
     }
 

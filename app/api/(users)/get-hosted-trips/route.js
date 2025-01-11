@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { trips, usersToTrips,reviews } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -12,9 +12,8 @@ export async function GET(req) {
             .select()
             .from(usersToTrips)
             .leftJoin(trips, eq(usersToTrips.tripId, trips.id))
-            .where(eq(usersToTrips.userId, userId));
+            .where(and(eq(usersToTrips.userId, userId),eq(usersToTrips.role,"host")) );
 
-        // console.log("hostedTrips", hostedTrips);
         const completedTrips = hostedTrips.filter(
             (trip) => trip.trips.status === "Completed"
           );

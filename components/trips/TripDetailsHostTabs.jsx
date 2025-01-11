@@ -4,14 +4,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddItineraryItemForm from "../itinerary/AddItinerayItemForm";
 import SimpleBar from "simplebar-react";
 import ItineraryItem from "../itinerary/ItineraryItem";
+import DataTableHostUsers from "./hostusersDataTable";
+import { columns} from "./columnshostusers";
 
-export default function TripDetailsHostTabs({ trip,dateIndex,dates,itinerary ,setItinerary,setDateIndex}) {
+export default function TripDetailsHostTabs({ trip,dateIndex,dates,itinerary ,setItinerary,setDateIndex ,members}) {
+
+  const usersData = members.map((member) => member.users);
+  // console.log("fm",members);
   return (
     <div>
-      <Tabs defaultValue="itinerary" className="w-[400px]">
+      <Tabs defaultValue="itinerary" className="w-full">
         <TabsList>
           <TabsTrigger value="itinerary">Itinerary</TabsTrigger>
           <TabsTrigger value="weather">Weather</TabsTrigger>
+          <TabsTrigger value="travellers">Travellers</TabsTrigger>
         </TabsList>
 
         <TabsContent value="itinerary" >
@@ -63,6 +69,9 @@ export default function TripDetailsHostTabs({ trip,dateIndex,dates,itinerary ,se
         </TabsContent>
 
         <TabsContent value="weather">See weather here</TabsContent>
+        <TabsContent value="travellers">
+          <DataTableHostUsers columns={columns} data={usersData}/>
+        </TabsContent>
       </Tabs>
     </div>
   );

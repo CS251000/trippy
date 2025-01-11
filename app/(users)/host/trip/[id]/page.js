@@ -1,16 +1,14 @@
 "use client";
 
-import ItineraryItem from "@/components/itinerary/ItineraryItem";
-import AddItineraryItemForm from "@/components/itinerary/AddItinerayItemForm";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { formatTimestamp } from "@/app/utils/util";
-import { FaCalendarAlt } from "react-icons/fa";
 import TripDetailsHostCard from "@/components/trips/TripDetailsHost";
 import LoadingDetails from "./loading";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const TripHostDashboard = () => {
   const { id } = useParams();
@@ -20,6 +18,10 @@ const TripHostDashboard = () => {
   const [dates, setDates] = useState([]);
   const [dateIndex, setDateIndex] = useState(0);
   const [itinerary, setItinerary] = useState({});
+  const [members,setMembers]= useState([]);
+  const [loadingMembers, setLoadingMembers] = useState(true);
+
+  
 
   function getDates(startDate, endDate) {
     const start = new Date(startDate);
@@ -74,7 +76,7 @@ const TripHostDashboard = () => {
 
         if (data.success) {
           const itineraryItems = data.itinerary;
-          const newItinerary = {}; // Build the state update in one go
+          const newItinerary = {};
 
           itineraryItems.forEach((item) => {
             const [startDate, startTime] = formatTimestamp(item.startTime);
@@ -102,15 +104,42 @@ const TripHostDashboard = () => {
     fetchItinerary();
   }, [id, user, isLoaded, isSignedIn]);
 
+  useEffect(() => {
+    if (!trip?.id) return;
+
+    async function fetchMembers() {
+      try {
+        setLoadingMembers(true);
+        const response = await fetch(`/api/get-trip-members?tripId=${trip.id}`);
+        if (!response.ok) throw new Error("Failed to fetch trip members.");
+
+        const data = await response.json();
+        setMembers(data.members || []);
+      } catch (error) {
+        console.error("Error fetching trip members:", error);
+      } finally {
+        setLoadingMembers(false);
+      }
+    }
+
+    fetchMembers();
+  }, [trip]);
+
   if (!isLoaded || !trip) {
     return <LoadingDetails />;
   }
+
+  console.log("trip",trip);
 
   
 
   return (
     <div className=" itinerary">
-      {<TripDetailsHostCard trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary} setDateIndex={setDateIndex}/>}
+      {<TripDetailsHostCard trip={trip} itinerary={itinerary} dateIndex={dateIndex} dates={dates} setItinerary={setItinerary} setDateIndex={setDateIndex} members={members}/>}
+
+      <Link href={`/chatroom/${trip.id}`}>
+      <Button className="mt-4">Go to chatroom for {trip.id}</Button>
+      </Link>
 
     </div>
   );

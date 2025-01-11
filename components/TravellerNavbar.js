@@ -4,18 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { navItems } from "@/lib/constants";
 import { SignInButton, SignUpButton, useUser, UserButton } from "@clerk/nextjs";
+import { CircleUserRound, Plane } from "lucide-react";
 
 export const TravellerNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn, user,isLoaded } = useUser();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // Debugging
-  useEffect(() => {
-    console.log("isSignedIn:", isSignedIn);
-    console.log("user:", user);
-  }, [isSignedIn, user]);
+  if( !isLoaded)return null;
+
+
 
   return (
     <div className="sticky top-0 z-50 flex justify-between items-center px-8 py-4 bg-black text-white font-mono shadow-lg">
@@ -63,9 +62,17 @@ export const TravellerNavbar = () => {
 
       {/* Call-to-Action Buttons */}
       <div className="hidden md:flex gap-4">
+      <Link href={`/traveller/dashboard/${user.id}`}>
+        <button className="bg-green-500 text-black py-2 px-4 rounded hover:bg-green-600">
+          <span className="flex flex-row "><Plane/>
+          My Trips</span>
+          
+        </button>
+        </Link>
         <Link href={'/host'}>
         <button className="bg-red-500 text-black py-2 px-4 rounded hover:bg-red-600">
-          Host Dashboard
+        <span className="flex flex-row gap-2 "><CircleUserRound/>
+        Host Dashboard</span>
         </button>
         </Link>
         {isSignedIn ? (
