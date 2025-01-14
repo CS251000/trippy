@@ -13,8 +13,8 @@ export const NavbarPage = () => {
 
   // Debugging
   useEffect(() => {
-    // console.log("isSignedIn:", isSignedIn);
-    // console.log("user:", user);
+    console.log("isSignedIn:", isSignedIn);
+    console.log("user:", user);
   }, [isSignedIn, user]);
 
   return (
