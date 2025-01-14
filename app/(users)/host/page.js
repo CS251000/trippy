@@ -133,7 +133,7 @@ const HostDashboard = () => {
             <p>Welcome, {userName}!</p>
 
             <Tabs defaultValue="ongoing" className="w-full">
-                <TabsList>
+                <TabsList className="w-screen">
                     <TabsTrigger value="upcoming">Upcoming Trips</TabsTrigger>
                     <TabsTrigger value="ongoing">Ongoing Trips</TabsTrigger>
                     <TabsTrigger value="completed">Completed Trips</TabsTrigger>
