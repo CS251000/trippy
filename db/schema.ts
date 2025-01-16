@@ -83,6 +83,7 @@ export const trips = pgTable("trips", {
     type: tripTypeEnum().array().notNull().default(sql`ARRAY[]::trip_types[]`),
     status:tripStatusEnum().notNull(),
     rating:integer("trip_rating").default(0),
+    draft: boolean("is_draft").default(true),
 });
 
 export const tripsRelations = relations(trips, ({ many }) => ({
@@ -103,9 +104,9 @@ export const usersToTrips = pgTable(
         tripId: integer("trip_id")
             .notNull()
             .references(() => trips.id,{onDelete:'cascade'}),
-        role: role(),
-        status:tripStatusEnum()
-        .references(()=>trips.status,{onDelete:'cascade'}),
+        role: role().notNull(),
+        // status:tripStatusEnum()
+        // .references(()=>trips.status,{onDelete:'cascade'}),
 
     },
     (t) => ({

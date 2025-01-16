@@ -1,0 +1,1 @@
+ALTER TABLE "trips" RENAME COLUMN "draft" TO "is_draft";

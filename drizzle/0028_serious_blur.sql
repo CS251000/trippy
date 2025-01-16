@@ -1,0 +1,1 @@
+ALTER TABLE "users_to_trips" ALTER COLUMN "role" SET NOT NULL;
