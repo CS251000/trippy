@@ -10,7 +10,7 @@ export default function TravellerTripPage() {
     <div>
       welcome to {tripId}
       <Link href={`/chatroom/${tripId}`}>
-      <Button className="mt-4">Go to chatroom for {tripId}</Button>
+      <Button className="mt-4">Go to chatroom {tripId}</Button>
       </Link>
     </div>
   )
