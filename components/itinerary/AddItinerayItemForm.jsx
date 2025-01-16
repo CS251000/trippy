@@ -35,11 +35,15 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
         description: "",
     });
 
-    useEffect(() => {
-        if (status && modalRef.current) {
-            modalRef.current.scrollTop = 0;
+    const scrollToTop = () => {
+        const scrollElement = modalRef.current?.getScrollElement();;
+        if (scrollElement) {
+            scrollElement.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
         }
-    }, [status]);
+    };
 
     function propagateAddItem(item) {
         setItinerary((itinerary) => ({
@@ -75,6 +79,7 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
         endTime = combineDateAndTime(date, endTime);
         if (startTime && endTime && startTime > endTime) {
             setError("Start time cannot be later than end time.");
+            scrollToTop();
             return;
         }
         setDisableSubmit(true);
@@ -105,7 +110,6 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
                         startTime: "",
                         endTime: "",
                         description: "",
-                        
                     });
                     propagateAddItem({
                         ...result.item[0],
@@ -123,6 +127,7 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
                 const error = await response.json();
                 console.log(error);
                 setStatus(`Error: ${error.error}`);
+                scrollToTop();
             }
         } catch (e) {
             console.log(e);
@@ -152,7 +157,7 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
                         style={{ height: "80vh" }}
                         ref={modalRef}
                     >
-                        <SimpleBar style={{ maxHeight: "100%" }}>
+                        <SimpleBar style={{ maxHeight: "100%" }} ref={modalRef}>
                             {/* Modal Header */}
                             <div className="flex items-center justify-between p-4 border-b">
                                 <h3 className="text-lg font-semibold text-gray-900">
@@ -180,7 +185,7 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
                             </div>
 
                             {status && (
-                                <div className="mb-4 p-3 text-white bg-red-300 border border-red-600 rounded">
+                                <div className="mb-4 p-3 text-white bg-red-400 border border-red-600 rounded">
                                     {status}
                                 </div>
                             )}
@@ -189,7 +194,7 @@ const AddItineraryItemForm = ({ date, tripId, setItinerary }) => {
                             <form className="p-4" onSubmit={handleSubmit}>
                                 {/* Error Message */}
                                 {error && (
-                                    <p className="mb-4 p-3 text-white bg-red-300 border border-red-600 rounded">
+                                    <p className="mb-4 p-3 text-white bg-red-400 border border-red-600 rounded">
                                         {error}
                                     </p>
                                 )}
