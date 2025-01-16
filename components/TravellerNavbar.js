@@ -62,7 +62,7 @@ export const TravellerNavbar = () => {
 
       {/* Call-to-Action Buttons */}
       <div className="hidden md:flex gap-4">
-      <Link href={`/traveller/dashboard/${user.id}`}>
+      <Link href={isSignedIn?`/traveller/dashboard/${user.id}`:`/trips`}>
         <button className="bg-green-500 text-black py-2 px-4 rounded hover:bg-green-600">
           <span className="flex flex-row "><Plane/>
           My Trips</span>
