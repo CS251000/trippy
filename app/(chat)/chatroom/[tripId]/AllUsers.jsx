@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MessageCirclePlus } from "lucide-react";
 import Link from "next/link";
 
-export default function AllUsers({ users }) {
+export default function AllUsers({ users,tripId }) {
   const sortedUsers = [...users].sort((a, b) =>
     (a.users.fullName || "").localeCompare(b.users.fullName || "")
   );
@@ -30,7 +30,7 @@ export default function AllUsers({ users }) {
                     {user.users.fullName || "Unknown User"}
                   </div>
                   <Link
-                    href={`/chat-member?receiverId=${user.users.clerkId}&fullName=${user.users.fullName}`}
+                    href={`/chat-member?receiverId=${user.users.clerkId}&fullName=${user.users.fullName}&tripId=${tripId}`}
                   >
                     <MessageCirclePlus />
                   </Link>

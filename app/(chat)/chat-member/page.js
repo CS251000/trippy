@@ -5,22 +5,25 @@ import { useSearchParams } from "next/navigation";
 import { db } from "@/firebaseConfig";
 import { ref, push, onValue } from "firebase/database";
 import Loading from "@/app/loading";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function IndividualMessagePage() {
+
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiverId");
   const receiverName = searchParams.get("fullName");
+  const tripId= searchParams.get("tripId");
 
   const { user, isSignedIn, isLoaded } = useUser();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
- 
   useEffect(() => {
     if (!receiverId) return;
 
     const chatId =
-      senderId < receiverId ? `${senderId}_${receiverId}` : `${receiverId}_${senderId}`;
+      user.id < receiverId ? `${user.id}_${receiverId}` : `${receiverId}_${user.id}`;
     const messagesRef = ref(db, `directMessages/${chatId}`);
 
     const unsubscribe = onValue(messagesRef, (snapshot) => {
@@ -31,8 +34,8 @@ export default function IndividualMessagePage() {
     });
 
     return () => unsubscribe();
-  }, [user?.id, receiverId]); 
-  
+  }, [user?.id, receiverId]);
+
   if (!isLoaded || !isSignedIn) {
     return <Loading />;
   }
@@ -58,31 +61,24 @@ export default function IndividualMessagePage() {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-medium mb-4">
+    <div className="p-6">
+      <Link href={`/chatroom/${tripId}`}>
+      <Button variant="outline">Back to chatroom for trip {tripId}</Button></Link>
+      <h2 className="text-xl font-semibold mb-6">
         Direct Message: {user.fullName} → {receiverName || "Receiver"}
       </h2>
-      <div
-        style={{
-          border: "1px solid #ccc",
-          padding: "10px",
-          height: "300px",
-          overflowY: "scroll",
-          marginBottom: "1rem",
-        }}
-      >
+      <div className="border border-gray-300 p-4 h-72 overflow-y-scroll rounded-md mb-6">
         {messages.length > 0 ? (
           messages.map((msg, index) => (
             <div
               key={index}
-              style={{
-                textAlign: msg.senderId === senderId ? "right" : "left",
-                marginBottom: "10px",
-              }}
+              className={`mb-4 ${
+                msg.senderId === senderId ? "text-right" : "text-left"
+              }`}
             >
-              <strong>
+              <span className="font-bold">
                 {msg.senderId === senderId ? "You" : receiverName || "Receiver"}:
-              </strong>{" "}
+              </span>{" "}
               {msg.message}
             </div>
           ))
@@ -90,17 +86,17 @@ export default function IndividualMessagePage() {
           <div className="text-gray-500">No messages yet.</div>
         )}
       </div>
-      <form onSubmit={sendMessage} className="flex gap-2">
+      <form onSubmit={sendMessage} className="flex gap-4">
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message"
-          className="border px-2 py-1 flex-1"
+          className="flex-1 border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-1 rounded"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
         >
           Send
         </button>

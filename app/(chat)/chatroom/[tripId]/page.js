@@ -7,6 +7,13 @@ import { useUser } from "@clerk/nextjs";
 import Loading from "@/app/loading";
 import AllUsers from "./AllUsers";
 import { SendHorizontal } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Chatroom = () => {
   const { isLoaded, user, isSignedIn } = useUser();
@@ -77,6 +84,7 @@ const Chatroom = () => {
       const messagesRef = ref(db, `chatrooms/${tripId}/messages`);
       push(messagesRef, {
         username,
+        profilePhoto:user.imageUrl,
         message,
         timestamp: Date.now(),
       });
@@ -91,30 +99,41 @@ const Chatroom = () => {
 
   return (
     <div className="flex flex-row items-center">
-      <AllUsers users={allUsers} />
+      <AllUsers users={allUsers} tripId={tripId} />
       <div className="p-20 w-auto m-auto">
         <h2>Chatroom for trip: {trip.title}</h2>
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "10px",
-            height: "300px",
-            overflowY: "scroll",
-          }}
+        <div className="border-solid border-black border-2 p-10 h-auto overflow-y-scroll"
         >
           {messages.map((msg, index) => (
-            <div key={index} style={{ marginBottom: "10px" }}>
-              <strong>{msg.username}</strong>: {msg.message}
+            <div key={index} className={``}>
+              <div className={`flex ${msg.username== username?"flex-row-reverse justify-start":" flex-row justify-start "} items-center `}>
+
+                <TooltipProvider><Tooltip>
+                  <TooltipTrigger>
+                  <Avatar className={`my-4 ${msg.username== username?"ml-10":"mr-10"}`}>
+                    <AvatarImage src={msg.profilePhoto} />
+                    <AvatarFallback>Sender</AvatarFallback>
+                  </Avatar>
+                  </TooltipTrigger>
+                  <TooltipContent>{msg.username}</TooltipContent>
+                  </Tooltip></TooltipProvider>
+
+                  <div className="text-sm">
+                  {msg.message}
+                  </div>
+                </div>
+              
             </div>
           ))}
         </div>
-        <form onSubmit={sendMessage} style={{ marginTop: "10px" }}>
+        <form onSubmit={sendMessage} className="mt-10">
+          <div className="flex flex-row items-center">
           <input
             type="text"
             placeholder="Your name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            style={{ marginRight: "5px" }}
+            className="mr-4"
             disabled
           />
           <input
@@ -122,9 +141,10 @@ const Chatroom = () => {
             placeholder="Type a message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            style={{ flex: 1 }}
+            className="flex-1 mr-3"
           />
           <button type="submit"><SendHorizontal/></button>
+          </div>
         </form>
       </div>
     </div>
