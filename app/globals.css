@@ -190,6 +190,68 @@ body {
     border-top-left-radius: 8px;
 }
 
+.chat-view {
+    width: 70%;
+}
+
+.chat-users {
+    height: 400px;
+}
+
+.chat-container {
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.chat-bubble {
+    max-width: 30%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-bubble.sent {
+    align-self: flex-end;
+    background-color: #daf8cb; /* Light green for sender */
+    color: #333;
+    border-top-right-radius: 0;
+    margin-left: auto;
+}
+
+.chat-bubble.received {
+    align-self: flex-start;
+    background-color: #f1f0f0; /* Light gray for receiver */
+    color: #333;
+    border-top-left-radius: 0;
+    margin-right: auto;
+}
+
+.bubble-content .username {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+}
+
+.bubble-content .message {
+    margin: 0;
+}
+
+/* Scrollbar styles (optional for custom scrollbar) */
+.simplebar-scrollbar::before {
+    background-color: #aaa;
+}
+
+
 .pill {
     display: inline-block;
     padding: 0.5em 1em;

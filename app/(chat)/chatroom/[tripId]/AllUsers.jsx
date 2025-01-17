@@ -12,8 +12,8 @@ export default function AllUsers({ users,tripId }) {
     (a.users.fullName || "").localeCompare(b.users.fullName || "")
   );
   return (
-    <div className="m-8">
-      <ScrollArea className="h-72 w-64 rounded-md border">
+    <div className="mx-8 chat-users">
+      <ScrollArea className="w-64 rounded-md border">
         <div className="p-4">
           <h2 className="mb-4 text-lg font-bold leading-none">All Members</h2>
           <Separator className="my-2" />
