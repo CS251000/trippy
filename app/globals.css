@@ -190,10 +190,6 @@ body {
     border-top-left-radius: 8px;
 }
 
-.chat-view {
-    width: 70%;
-}
-
 .chat-users {
     height: 400px;
 }
@@ -203,8 +199,13 @@ body {
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #f9f9f9;
-    max-width: 100%;
+    width: 100%;
+    height: 70vh;
     margin: 0 auto;
+}
+
+.chat {
+    height: 83vh;
 }
 
 .chat-bubble {
