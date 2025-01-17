@@ -69,7 +69,7 @@ export const usersRelations = relations(users, ({ many }) => ({
     reviews: many(reviews),
 }));
 
-// Trips
+
 export const trips = pgTable("trips", {
     id: serial("trip_id").primaryKey(),
     title: varchar("title", { length: MAX_TRIP_TITLE_LENGTH }),
