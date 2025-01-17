@@ -140,6 +140,11 @@ const TripHostDashboard = () => {
       <Link href={`/chatroom/${trip.id}`}>
       <Button className="mt-4">Go to chatroom for {trip.id}</Button>
       </Link>
+      <Link href={`/trip-gallery/${trip.id}`}>
+      <Button className="m-3" variant="outline">
+        Gallery for {trip.id}
+      </Button>
+      </Link>
 
     </div>
   );

@@ -11,6 +11,7 @@ import {
     numeric,
     boolean,
     date,
+    bigint,
 } from "drizzle-orm/pg-core";
 
 export const MAX_USERNAME_LENGTH = 64;
@@ -238,8 +239,8 @@ export const messagesRelations = relations(messages, ({ one }) => ({
 export const payments = pgTable("payments", {
   id: serial("payment_id").primaryKey(),
   status: varchar("status", { length: 50 }).notNull(),
-  tripId: integer("trip_id").notNull().references(() => trips.id),
-  userId: integer("user_id").notNull().references(() => users.id),
+  tripId: integer("trip_id").notNull().references(() => trips.id,{onDelete:'cascade'}),
+  userId: varchar("user_id").notNull().references(() => users.clerkId,{onDelete:'cascade'}),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -250,8 +251,20 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
   }),
   user: one(users, {
       fields: [payments.userId],
-      references: [users.id],
+      references: [users.clerkId],
   }),
 }));
+
+export const mediaUploads= pgTable("mediaUploads",{
+    id: serial("media_id").primaryKey(),
+    userId: varchar("user_id").notNull().references(()=>users.clerkId,{onDelete:'cascade'}),
+    tripId: integer("trip_id").notNull().references(() => trips.id,{onDelete:'cascade'}),
+    fileName:varchar("file_name"),
+    fileUrl: text("file_url").notNull(),
+    fileType:text("file_type"),
+    fileSize: bigint({mode:'number'}),
+    uploadDate: timestamp("uploaded_at").defaultNow(),
+    description: text(),
+});
 
 

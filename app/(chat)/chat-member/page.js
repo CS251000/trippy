@@ -1,14 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useSearchParams } from "next/navigation";
+import {  useRouter,useSearchParams } from "next/navigation";
 import { db } from "@/firebaseConfig";
 import { ref, push, onValue } from "firebase/database";
 import Loading from "@/app/loading";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
 
 export default function IndividualMessagePage() {
+
+  const router= useRouter();
 
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiverId");
@@ -23,7 +25,7 @@ export default function IndividualMessagePage() {
     if (!receiverId) return;
 
     const chatId =
-      user.id < receiverId ? `${user.id}_${receiverId}` : `${receiverId}_${user.id}`;
+      user.id < receiverId ? `${user.id}_${receiverId}_${tripId}` : `${receiverId}_${user.id}_${tripId}`;
     const messagesRef = ref(db, `directMessages/${chatId}`);
 
     const unsubscribe = onValue(messagesRef, (snapshot) => {
@@ -47,7 +49,7 @@ export default function IndividualMessagePage() {
     if (message.trim() === "") return;
 
     const chatId =
-      senderId < receiverId ? `${senderId}_${receiverId}` : `${receiverId}_${senderId}`;
+      senderId < receiverId ? `${senderId}_${receiverId}_${tripId}` : `${receiverId}_${senderId}_${tripId}`;
     const messagesRef = ref(db, `directMessages/${chatId}`);
 
     push(messagesRef, {
@@ -62,8 +64,12 @@ export default function IndividualMessagePage() {
 
   return (
     <div className="p-6">
-      <Link href={`/chatroom/${tripId}`}>
-      <Button variant="outline">Back to chatroom for trip {tripId}</Button></Link>
+      
+      <Button 
+       variant="outline"
+       onClick={()=>router.back()}>
+        Back to chatroom for trip {tripId}
+        </Button>
       <h2 className="text-xl font-semibold mb-6">
         Direct Message: {user.fullName} → {receiverName || "Receiver"}
       </h2>

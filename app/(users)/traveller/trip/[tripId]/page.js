@@ -11,6 +11,12 @@ export default function TravellerTripPage() {
       welcome to {tripId}
       <Link href={`/chatroom/${tripId}`}>
       <Button className="mt-4">Go to chatroom for {tripId}</Button>
+      
+      </Link>
+      <Link href={`/trip-gallery/${tripId}`}>
+      <Button className="m-3" variant="outline">
+        Gallery for {tripId}
+      </Button>
       </Link>
     </div>
   )
