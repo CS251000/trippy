@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function AllUsers({ users,tripId }) {
   const sortedUsers = [...users].sort((a, b) =>
-    (a.users.fullName || "").localeCompare(b.users.fullName || "")
+    (a.users.username || "").localeCompare(b.users.username || "")
   );
   return (
     <div className="mx-8 chat-users">

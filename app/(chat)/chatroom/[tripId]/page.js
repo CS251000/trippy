@@ -7,12 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import Loading from "@/app/loading";
 import AllUsers from "./AllUsers";
 import { SendHorizontal } from "lucide-react";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
@@ -109,10 +104,11 @@ const Chatroom = () => {
                 <AllUsers users={allUsers} tripId={tripId} />
                 <div className="chat-view">
                     <div className="chat-container">
-                        <SimpleBar style={{ maxHeight: "400px" }}>
+                        <SimpleBar className="max-h-[400px]">
                             {messages.map((msg, index) => (
+                                <div key={index}>
+                                    
                                 <div
-                                    key={index}
                                     className={`chat-bubble ${msg.username === username ? "sent" : "received"
                                         }`}
                                 >
@@ -121,10 +117,11 @@ const Chatroom = () => {
                                         <p className="message">{msg.message}</p>
                                     </div>
                                 </div>
+                                </div>
                             ))}
                         </SimpleBar>
                     </div>
-                    {/* <form onSubmit={sendMessage} className="mt-10">
+                    <form onSubmit={sendMessage} className="mt-10">
                     <div className="flex flex-row items-center">
                         <input
                             type="text"
@@ -143,7 +140,7 @@ const Chatroom = () => {
                         />
                         <button type="submit"><SendHorizontal /></button>
                     </div>
-                </form> */}
+                </form> 
                 </div>
             </div>
         </>
