@@ -5,12 +5,18 @@ import React, { useState, useEffect } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { database, storage } from "@/firebaseConfig";
+import { useUser } from "@clerk/nextjs";
+import Loading from "@/app/loading";
 
 export default function TripPhotoGallery() {
+  const {user,isLoaded,isSignedIn}= useUser();
   const { tripId } = useParams();
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [mediaList, setMediaList] = useState([]);
+
+
+
 
 
   useEffect(() => {
@@ -25,6 +31,7 @@ export default function TripPhotoGallery() {
   }, [tripId]);
 
   const handleUpload = async () => {
+    if(!isLoaded || !isSignedIn)return;
     if (files.length === 0) return;
 
     setUploading(true);
@@ -43,6 +50,7 @@ export default function TripPhotoGallery() {
             await addDoc(collection(database, "tripMedia"), {
               tripId,
               url: downloadURL,
+              uploadedBy: user.fullName,
               name: file.name,
               type: file.type,
               uploadedAt: new Date(),
