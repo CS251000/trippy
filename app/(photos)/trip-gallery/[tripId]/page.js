@@ -7,6 +7,20 @@ import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { database, storage } from "@/firebaseConfig";
 import { useUser } from "@clerk/nextjs";
 import Loading from "@/app/loading";
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 export default function TripPhotoGallery() {
   const {user,isLoaded,isSignedIn}= useUser();
@@ -14,10 +28,26 @@ export default function TripPhotoGallery() {
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [mediaList, setMediaList] = useState([]);
+  const [usersModalOpen,setUsersModalOpen]= useState(false);
+  const [selectedUser,setSelectedUser]= useState(null);
+  const [users,setUsers]=useState(null);
 
 
-
-
+  useEffect(() => {
+      async function fetchAllUsers() {
+        try {
+          const response = await fetch(`/api/get-trip-members?tripId=${tripId}`);
+          if (!response.ok) throw new Error("Failed to fetch users.");
+  
+                  const data = await response.json();
+                  setUsers(data.members || []);
+              } catch (error) {
+                  console.error("Error fetching all users:", error);
+              }
+          }
+  
+          fetchAllUsers();
+      }, []);
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -44,7 +74,7 @@ export default function TripPhotoGallery() {
         uploadTask.on(
           "state_changed",
           null,
-          (error) => reject(error), // Reject on error
+          (error) => reject(error), 
           async () => {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             await addDoc(collection(database, "tripMedia"), {
@@ -83,11 +113,11 @@ export default function TripPhotoGallery() {
       console.error("Failed to refresh media list:", error);
     }
   };
-
-  // Handle file selection from input
   const handleFileChange = (e) => {
     setFiles(Array.from(e.target.files));
   };
+
+  if(!users || !isLoaded)return <Loading/>
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -134,6 +164,43 @@ export default function TripPhotoGallery() {
           ))}
         </div>
       </div>
+
+      <div className="flex items-center space-x-4 mt-4">
+      <p className="text-sm text-muted-foreground">Status</p>
+      <Popover open={usersModalOpen} onOpenChange={setUsersModalOpen}>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className="w-[150px] justify-start">
+            {selectedUser ? <>{selectedUser.users.fullName}</> : <>Select User</>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0" side="right" align="start">
+          <Command>
+            <CommandInput placeholder="Search Full Name ..." />
+            <CommandList>
+              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandGroup className=" bg-slate-300">
+                {users.map((user,index) => (
+                  <CommandItem
+                    key={index}
+                    value={user.users.fullName}
+                    className="text-black"
+                    onSelect={(value) => {
+                      setSelectedUser(
+                        users.find((priority) => priority.users.fullName === value) ||
+                          null
+                      )
+                      setUsersModalOpen(false);
+                    }}
+                  >
+                    {user.users.fullName}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
     </div>
   );
 }
